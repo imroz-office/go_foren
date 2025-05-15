@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="add-user.html">
+
+	<title>GoForen</title>
+
+	<!-- GOOGLE FONTS -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet"> 
+
+	<link href="https://cdn.materialdesignicons.com/4.4.95/css/materialdesignicons.min.css" rel="stylesheet" />
+
+	<!-- PLUGINS CSS STYLE -->
+	<link href="https://sitsoftwares.co.in/go_foren/assets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet">
+	<link href="https://sitsoftwares.co.in/go_foren/assets/plugins/simplebar/simplebar.css" rel="stylesheet" />
+
+	<!-- Ekka CSS -->
+	<link id="ekka-css" href="https://sitsoftwares.co.in/go_foren/assets/css/ekka.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
+	<!-- ckeditor -->
+    <script src="https://sitsoftwares.co.in/go_foren/assets/plugins/ckeditor/ckeditor.js"></script>
+	<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+ <!-- Add this to your <head> section to include Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+	<!-- FAVICON -->
+	<link href="https://sitsoftwares.co.in/go_foren/assets/img/feb.png" rel="shortcut icon" />
+	<!-- Add this inside your <head> tag -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        /**{*/
+        /*    color:black; !important*/
+        /*}*/
+        .sidenav-item-link.active {
+            color: #007bff; /* Or any highlight color */
+            font-weight: bold;
+        }
+        .has-sub.active > a {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .is-invalid {
+        	border: 1px solid red !important;
+        }
+
+    
+    
+    .sidebar .sidebar-inner > li > a {
+        
+        color: #000000 !important;
+        
+    }
+    
+    
+.sidebar .nav > li.active > a i {
+    color: #00cc99 !important;
+}
+
+.ec-sidebar-light .sidebar .nav > li.active > a {
+    color: #00cc99 !important;
+}
+
+.sidebar .sidebar-inner > li > a:before {
+   
+    background: #00cc99 !important;
+    
+}
+
+.ec-sidebar-light .sidebar .sub-menu > li > a {
+    color: #000000;
+}
+
+.ec-sidebar-light .sidebar .sub-menu > li.active > a {
+    color: #00cc99 !important;
+}
+    
+    
+   
+    </style>
+</head>
+
+<body class="ec-header-fixed ec-sidebar-fixed ec-sidebar-light ec-header-light" id="body">
+
+	<!--  WRAPPER  -->
+	<div class="wrapper">
+		
+		<!-- LEFT MAIN SIDEBAR -->
+		<div class="ec-left-sidebar ec-bg-sidebar">
+			<div id="sidebar" class="sidebar ec-sidebar-footer">
+
+				<div class="ec-brand">
+					<a href="#" title="SIT">
+						<img class="ec-brand-icon" src="https://sitsoftwares.co.in/go_foren/assets/img/feb.png" alt="" />
+						<span class="ec-brand-name text-truncate">GoForen</span>
+					</a>
+				</div>
+				<!-- begin sidebar scrollbar -->
+				<div class="ec-navigation" data-simplebar>
+					<!-- sidebar menu -->
+					<ul class="nav sidebar-inner" id="sidebar-menu">
+						<!-- Dashboard -->
+						<li class="">
+							<a class="sidenav-item-link" href="{% url 'dashboard_view' %}">
+								<i class="mdi mdi-view-dashboard-outline"></i>
+								<span class="nav-text">Dashboard</span>
+							</a>
+							<hr>
+						</li>
+						
+					
+
+						<!-- Users -->
+						<li class="has-sub">
+							<a class="sidenav-item-link" href="javascript:void(0)">
+							    <i class="mdi mdi-account-group"></i>
+								<span class="nav-text">Users</span> <b class="caret"></b>
+							</a>
+							<div class="collapse">
+								<ul class="sub-menu" id="products" data-parent="#sidebar-menu">
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_user' %}">-->
+									<!--		<span class="nav-text">Add User</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'user_list' %}">
+											<span class="nav-text">User List</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+
+						<!-- Master -->
+						<li class="has-sub">
+							<a class="sidenav-item-link" href="javascript:void(0)">
+								<i class="mdi mdi-palette-advanced"></i>
+								<span class="nav-text">Master</span> <b class="caret"></b>
+							</a>
+							<div class="collapse">
+								<ul class="sub-menu" id="products" data-parent="#sidebar-menu">
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_country' %}">-->
+									<!--		<span class="nav-text">Add Country</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'country_list' %}">
+											<span class="nav-text">Country List</span>
+										</a>
+									</li>
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_occupation' %}">-->
+									<!--		<span class="nav-text">Add Occupation</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'occupation_list' %}">
+											<span class="nav-text">Occupation List</span>
+										</a>
+									</li>
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_visa_type' %}">-->
+									<!--		<span class="nav-text">Add Visa Type</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'visa_type_list' %}">
+											<span class="nav-text">Visa Type List</span>
+										</a>
+									</li>
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_course' %}">-->
+									<!--		<span class="nav-text">Add Course</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'course_list' %}">
+											<span class="nav-text">Course List</span>
+										</a>
+									</li>
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_role' %}">-->
+									<!--		<span class="nav-text">Add User Role</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'role_list' %}">-->
+									<!--		<span class="nav-text">User Role List</span>-->
+									<!--	</a>-->
+									<!--</li>-->
+					            </ul>
+							</div>
+						</li>
+						
+						<!-- Home -->
+						<li class="has-sub">
+							<a class="sidenav-item-link" href="javascript:void(0)">
+							<i class="fa-solid fa-house"></i>
+								<span class="nav-text">Home</span> <b class="caret"></b>
+							</a>
+							<div class="collapse">
+								<ul class="sub-menu" id="products" data-parent="#sidebar-menu">
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_home' %}">-->
+									<!--		<span class="nav-text">Add Home Content</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'home_list' %}">
+											<span class="nav-text">Home Content List</span>
+										</a>
+									</li>
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_news' %}">-->
+									<!--		<span class="nav-text">Add News</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'news_list' %}">
+											<span class="nav-text">Latest News</span>
+										</a>
+									</li>
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_team' %}">-->
+									<!--		<span class="nav-text">Add Team</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'team_list' %}">
+											<span class="nav-text">Team List</span>
+										</a>
+									</li>
+					            </ul>
+							</div>
+						</li>
+						
+						<!-- About Us -->
+						<li class="has-sub">
+							<a class="sidenav-item-link" href="javascript:void(0)">
+								<i class="fa-regular fa-address-card"></i>
+								<span class="nav-text">About Us</span> <b class="caret"></b>
+							</a>
+							<div class="collapse">
+								<ul class="sub-menu" id="products" data-parent="#sidebar-menu">
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_about_us' %}">-->
+									<!--		<span class="nav-text">Add About Us</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'about_us_list' %}">
+											<span class="nav-text">About Us List</span>
+										</a>
+									</li>
+								
+					            </ul>
+							</div>
+						</li>
+						
+						<!-- Media -->
+						<li class="has-sub">
+							<a class="sidenav-item-link" href="javascript:void(0)">
+								<i class="fa-solid fa-photo-film"></i>
+								<span class="nav-text">Media</span> <b class="caret"></b>
+							</a>
+							<div class="collapse">
+								<ul class="sub-menu" id="products" data-parent="#sidebar-menu">
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_image' %}">-->
+									<!--		<span class="nav-text">Add Gallery Image</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'image_list' %}">
+											<span class="nav-text">Gallery Image List</span>
+										</a>
+									</li>
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_video' %}">-->
+									<!--		<span class="nav-text">Add Video</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'video_list' %}">
+											<span class="nav-text">Video List</span>
+										</a>
+									</li>
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_success_story' %}">-->
+									<!--		<span class="nav-text">Add Success Story</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'success_story_list' %}">
+											<span class="nav-text">Success Story List</span>
+										</a>
+									</li>
+					            </ul>
+							</div>
+						</li>
+					
+						<!-- Blog -->
+						<li class="has-sub">
+							<a class="sidenav-item-link" href="javascript:void(0)">
+							<i class="fa-solid fa-file-video"></i>
+								<span class="nav-text">Blog</span> <b class="caret"></b>
+							</a>
+							<div class="collapse">
+								<ul class="sub-menu" id="products" data-parent="#sidebar-menu">
+									<!--<li class="">-->
+									<!--	<a class="sidenav-item-link" href="{% url 'add_blog' %}">-->
+									<!--		<span class="nav-text">Add Blog</span>-->
+									<!--	</a>-->
+									<!--</li>  -->
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'blog_list' %}">
+											<span class="nav-text">Blog List</span>
+										</a>
+									</li>
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'comments_list' %}">
+											<span class="nav-text">Comment List</span>
+										</a>
+									</li>
+					            </ul>
+							</div>
+						</li>
+
+						<!-- Countact Us -->
+						<li class="has-sub">
+							<a class="sidenav-item-link" href="javascript:void(0)">
+								<i class="fa-regular fa-address-book"></i>
+								<span class="nav-text">CONTACT  Us</span> <b class="caret"></b>
+							</a>
+							<div class="collapse">
+								<ul class="sub-menu" id="products" data-parent="#sidebar-menu">
+									<li class="">
+										<a class="sidenav-item-link" href="{% url 'inquiry_view' %}">
+											<span class="nav-text">Visa Inquiries</span>
+										</a>
+									</li>
+					            </ul>
+							</div>
+						</li>
+
+				</div>
+			</div>
+		</div>
+
+		<!--  PAGE WRAPPER -->
+		<div class="ec-page-wrapper">
+			<!-- Header -->
+			<header class="ec-main-header" id="header">
+				<nav class="navbar navbar-static-top navbar-expand-lg">
+					<!-- Sidebar toggle button -->
+					<button id="sidebar-toggler" class="sidebar-toggle"></button>
+					<!-- search form -->
+					<!--<div class="search-form d-lg-inline-block">-->
+					<!--	<div class="input-group">-->
+					<!--		<input type="text" name="query" id="search-input" class="form-control"-->
+					<!--			placeholder="search.." autofocus autocomplete="off" />-->
+					<!--		<button type="button" name="search" id="search-btn" class="btn btn-flat">-->
+					<!--			<i class="mdi mdi-magnify"></i>-->
+					<!--		</button>-->
+					<!--	</div>-->
+					<!--	<div id="search-results-container"> -->
+					<!--		<ul id="search-results"></ul>-->
+					<!--	</div>-->
+					<!--</div>-->
+                    <div class="search-form d-lg-inline-block"></div>
+					<!-- navbar right -->
+					<div class="navbar-right">
+						<ul class="nav navbar-nav">
+							<!-- User Account -->
+							<li class="dropdown user-menu">
+								<button class="dropdown-toggle nav-link ec-drop" data-bs-toggle="dropdown"
+									aria-expanded="false">
+								    <img src="https://sitsoftwares.co.in/go_foren/assets/img/user/user.png" class="user-image" alt="User Image">
+								    <!--<p>{{request.session.session_username}}</p>-->
+									
+								</button>
+								<ul class="dropdown-menu dropdown-menu-right ec-dropdown-menu">
+									<!-- User image -->
+									<li class="dropdown-header">
+					                    <p>{{request.session.session_username}}</p>
+									</li>
+									<li class="dropdown-header">
+					                    <p>{{request.session.session_mobile}}</p>
+									</li>
+									<li class="dropdown-footer">
+										<a href="{% url 'logout' %}"> <i class="mdi mdi-logout"></i> Log Out </a>
+									</li>
+								</ul>
+							</li>
+							<li class="right-sidebar-in right-sidebar-2-menu">
+								<i class="mdi mdi-settings-outline mdi-spin"></i>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+            {%  block start %}
+
+            {%  endblock %}
+			<!-- Footer -->
+			<footer class="footer mt-auto">
+				<div class="copyright bg-white">
+					<p>
+						Copyright &copy; <span id="ec-year"></span><a class="text-primary" target="_blank"> GoForen</a>. All Rights Reserved.
+					  </p>
+				</div>
+			</footer>
+		</div> <!-- End Page Wrapper -->
+	</div> <!-- End Wrapper -->
+	
+    <!-- Active class switch script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var currentPath = window.location.pathname;
+        var links = document.querySelectorAll('.sidenav-item-link');
+    
+        // First, clear all active classes (important!)
+        document.querySelectorAll('.sidenav-item-link.active, .has-sub.active, .collapse.show, li.active').forEach(function(el) {
+            el.classList.remove('active', 'show');
+        });
+    
+        links.forEach(function(link) {
+            var linkPath = link.getAttribute('href');
+    
+            // Only match if currentPath EXACTLY equals linkPath
+            if (linkPath && currentPath === linkPath) {
+                // Highlight the exact active link
+                link.classList.add('active');
+    
+                // Highlight the parent <li> of the link
+                var parentLi = link.closest('li');
+                if (parentLi) {
+                    parentLi.classList.add('active');
+                }
+    
+                // Expand the parent .collapse
+                var parentCollapse = link.closest('.collapse');
+                if (parentCollapse) {
+                    parentCollapse.classList.add('show');
+    
+                    // Highlight the parent .has-sub menu
+                    var parentHasSub = parentCollapse.closest('.has-sub');
+                    if (parentHasSub) {
+                        parentHasSub.classList.add('active');
+                        
+                        // Also highlight the parent <a> inside .has-sub
+                        var parentToggleLink = parentHasSub.querySelector('.sidenav-item-link');
+                        if (parentToggleLink) {
+                            parentToggleLink.classList.add('active');
+                        }
+                    }
+                }
+            }
+        });
+    // Show success alerts
+    {% if add_success %}
+    Swal.fire({ icon: 'success', title: 'Created', text: '{{record_name}} created successfully!' });
+    {% endif %}
+    {% if update_success %}
+    Swal.fire({ icon: 'success', title: 'Updated', text: '{{record_name}} updated successfully!' });
+    {% endif %}
+    {% if delete_success %}
+    Swal.fire({ icon: 'success', title: 'Deleted', text: '{{record_name}} deleted successfully!' });
+    {% endif %}
+    });
+</script>
+	
+	<!-- Common Javascript --> 
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/jquery/jquery-3.5.1.min.js"></script>
+	<script src="https://sitsoftwares.co.in/go_foren/assets/js/bootstrap.bundle.min.js"></script>
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/simplebar/simplebar.min.js"></script>
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/jquery-zoom/jquery.zoom.min.js"></script>
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/slick/slick.min.js"></script>
+
+	<!-- Chart -->
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/charts/Chart.min.js"></script>
+	<script src="https://sitsoftwares.co.in/go_foren/assets/js/chart.js"></script>
+
+	<!-- Google map chart -->
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/charts/google-map-loader.js"></script>
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/charts/google-map.js"></script>
+
+	<!-- Date Range Picker -->
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/daterangepicker/moment.min.js"></script>
+    <script src="https://sitsoftwares.co.in/go_foren/assets/plugins/daterangepicker/daterangepicker.js"></script>
+	<script src="https://sitsoftwares.co.in/go_foren/assets/js/date-range.js"></script>
+
+	<!-- Option Switcher -->
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/options-sidebar/optionswitcher.js"></script>
+
+	<!-- Ekka Custom -->
+	<script src="https://sitsoftwares.co.in/go_foren/assets/js/ekka.js"></script>
+	
+	<script>
+        CKEDITOR.replace('description');
+        CKEDITOR.replace('description2');
+        CKEDITOR.replace('description3');
+    </script>
+
+</body>
+
+</html>

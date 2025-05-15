@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+{%  block start %}
+
+			<!-- CONTENT WRAPPER -->
+			<div class="ec-content-wrapper">
+				<div class="content">
+					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+						<div>
+							<h1>Comment List</h1>
+    							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+								<span><i class="mdi mdi-chevron-right"></i></span>Comment List</p>
+						</div>
+						<!--<div>          -->
+						<!--	<a href="{% url 'add_blog' %}" class="btn btn-primary">Add</a>-->
+						<!--</div>-->
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<div class="card card-default">
+								<div class="card-body">
+									<div class="table-responsive">
+										<table id="responsive-data-table" class="table">
+											<thead>
+												<tr>
+													<th>S. No.</th>
+													<th>Blog id</th>
+													<th>Name</th>
+													<th>email</th>
+													<th>Comment</th>
+                                                    <th>Date</th>
+                                                    <!--<th>Action</th>-->
+												</tr>
+											</thead>
+
+											<tbody>
+                                                {% for i in my_range%}
+												<tr>
+													<td>{{forloop.counter}}</td>
+													<td>{{forloop.counter}}</td>
+													<td>{{forloop.counter}}</td>
+													<td>{{i}}{{i.ofc_godown_name}}</td>
+													<td>{{i}}{{i.o_g_mobile}}</td>
+													<td>{{i}}{{i.o_g_mobile}}</td>
+													<!--<td>{{i.o_g_city}}</td>-->
+													
+													<!--<td>-->
+             <!--                                           <a href="/sit_vastra/{{i.o_g_pic.url}}" target="_blank"> -->
+                                                            <!--<img src="/sit_vastra/{{i.o_g_pic.url}}" width="100" style="height: 100px;">-->
+             <!--                                               	<img style="height:40px" class="ec-blog-preview"-->
+													<!--					src="https://sitsoftwares.co.in/go_foren/media/other/default/default.jpeg"-->
+													<!--					alt="edit" />-->
+             <!--                                           </a><br>-->
+                                                        <!--{% if i.o_g_pic %}-->
+                                                        <!--{% else %}-->
+                                                        <!--    No blog Upload-->
+                                                        <!--{% endif %}-->
+													
+             <!--                                       </td>-->
+														
+													
+													<!--<td>-->
+													<!--	<div class="btn-group mb-1">-->
+													<!--		<button type="button"-->
+													<!--			class="btn btn-outline-success">Action</button>-->
+													<!--		<button type="button"-->
+													<!--			class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"-->
+													<!--			data-bs-toggle="dropdown" aria-haspopup="true"-->
+													<!--			aria-expanded="false" data-display="static">-->
+													<!--			<span class="sr-only">Action</span> -->
+													<!--		</button>-->
+
+													<!--		<div class="dropdown-menu">	-->
+																
+             <!--                                                   <a class="dropdown-item" href="{% url 'edit_blog' 2 %}">Edit</a>-->
+                                                                <!-- <a class="dropdown-item" href="/sit_vastra/edit_invoice_page/{{ item.id }}">Edit</a> -->
+																
+             <!--                                                   <a href="javascript:void(0);" class="dropdown-item delete-btn" data-url="{% url 'delete_blog' 2 %}">Delete</a>-->
+													<!--		</div>-->
+													<!--		</div>-->
+																				
+													<!--		<div>-->
+													<!--	</div>-->
+													<!--</td>-->
+												</tr>
+                                                {% endfor %}
+											</tbody>
+										</table>
+										<div class="pagination justify-content-center mt-3" style="justify-content: left !important;">
+    <nav>
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?q={{ search_query }}&page=1">&laquo; First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?q={{ search_query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+
+            <li class="page-item disabled">
+                <span class="page-link">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?q={{ search_query }}&page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?q={{ search_query }}&page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- End Content -->
+			</div> <!-- End Content Wrapper -->
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const deleteUrl = this.getAttribute("data-url");
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This will permanently delete the office!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = deleteUrl;
+                }
+            });
+        });
+    });
+    
+    // Show success alerts
+    {% if add_success %}
+    Swal.fire({ icon: 'success', title: 'Created', text: 'Data created successfully!' });
+    {% endif %}
+    {% if update_success %}
+    Swal.fire({ icon: 'success', title: 'Updated', text: 'Data updated successfully!' });
+    {% endif %}
+    {% if delete_success %}
+    Swal.fire({ icon: 'success', title: 'Deleted', text: 'Data deleted successfully!' });
+    {% endif %}
+});
+</script>
+
+
+{%  endblock %}		

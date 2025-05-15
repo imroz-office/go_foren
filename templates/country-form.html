@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load static %}
+{% block start %}
+<!-- CONTENT WRAPPER -->
+
+
+
+<style>
+    a {
+    color: #00cc99;
+    
+}
+
+.btn.btn-primary {
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+
+.btn.btn-primary:hover, .btn.btn-outline-primary:hover {
+    color: #ffffff;
+    background-color: #00a37b;
+    border-color: #00a37b;
+}
+
+
+
+</style>
+<div class="ec-content-wrapper">
+    <div class="content">
+        <div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+            <div>
+                <h1>{% if is_edit %}Edit Country{% else %}Add Country{% endif %}</h1>
+                <p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+                    <span><i class="mdi mdi-chevron-right"></i></span>{% if is_edit %}Edit Country{% else %}Add Country{% endif %}</p>
+            </div>
+            <div>
+                <a href="{% url 'country_list' %}" class="btn btn-primary"> View All </a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-header card-header-border-bottom">
+                        <h2>{% if is_edit %}Edit Country{% else %}Add Country{% endif %}</h2>
+                    </div>
+           
+                     <form id="cityForm" class="form row g-3" action="{% if is_edit %}{% url 'edit_country' country.id %}{% else %}{% url 'add_country' %}{% endif %}" method="post">
+                                   
+                    <div class="card-body">
+                        <div class="row ec-vendor-uploads">
+                            <div class="col-lg-12">
+                                 <div class="ec-vendor-upload-detail">
+                    <div class="row g-3">
+                                
+                                        {% csrf_token %}
+
+                                        <div class="col-md-6">
+                                                <label for="country" class="form-label">Country Name</label>
+                                                  <div class="input-group">
+                                                     <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                                                   <input type="text" class="form-control" name="country" id="country" placeholder="Enter Country" {% if is_edit %}value="{{country.country}}"{% else %}Add Country{% endif %} required>
+                                                </div>
+                                                </div>
+
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-primary" id="submitBtn">Save</button>
+                                        </div>
+                                    
+                              
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- End Card Body -->
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Content -->
+</div> <!-- End Content Wrapper -->
+
+<!-- SweetAlert & Validation Script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("cityForm");
+    const submitBtn = document.getElementById("submitBtn");
+
+    // Only letters and spaces for City and State fields
+    ['country'].forEach(function (fieldName) {
+        const input = form.querySelector(`input[name="${fieldName}"]`);
+        input.addEventListener('input', function () {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+        });
+    });
+
+    submitBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        // const city = form.querySelector('input[name="city"]');
+        // const state = form.querySelector('input[name="state"]');
+        const country = form.querySelector('input[name="country"]');
+
+        let isValid = true;
+
+        [country].forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add("is-invalid");
+                isValid = false;
+            } else {
+                field.classList.remove("is-invalid");
+            }
+        });
+
+        if (!isValid) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Missing Fields',
+                text: 'Please fill in all required fields.'
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You are about to Submit.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Submit!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

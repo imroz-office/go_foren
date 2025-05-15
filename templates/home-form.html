@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load static %}
+{%  block start %}
+
+
+<style>
+    a {
+    color: #00cc99;
+    
+}
+
+.btn.btn-primary {
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+
+/*.form-control {*/
+   
+/*    margin-bottom: 30px;*/
+   
+/*}*/
+
+
+.btn.btn-primary:hover, .btn.btn-outline-primary:hover {
+    color: #ffffff;
+    background-color: #00a37b;
+    border-color: #00a37b;
+}
+</style>
+			<!-- CONTENT WRAPPER -->
+			<div class="ec-content-wrapper">
+				<div class="content">
+					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+						<div>
+							<h1>{% if is_edit %}Edit Home Content{% else %}Add Home Content{% endif %}</h1>
+							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+								<span><i class="mdi mdi-chevron-right"></i></span>{% if is_edit %}Edit Home Content{% else %}Add Home Content{% endif %}</p>
+						</div>
+						<div> 
+							<a href="{% url 'home_list' %}" class="btn btn-primary"> View All
+							</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<div class="card card-default">
+								<div class="card-header card-header-border-bottom">
+									<h2>{% if is_edit %}Edit Home Content{% else %}Add Home Content{% endif %}</h2>
+								</div>
+
+								<div class="card-body">
+									<div class="row ec-vendor-uploads">  
+										<form id="add-office-form" class=" row g-3" action="{% if is_edit %}{% url 'edit_home' data.id %}{% else %}{% url 'add_home' %}{% endif %}" method="post" enctype="multipart/form-data">
+											{% csrf_token %}
+
+											<div class="col-lg-12">
+											    <div class="ec-vendor-upload-detail">
+											<div class="row g-3">
+
+                                                        <div class="col-md-6">
+                                                            
+                                                            <label for="serial" class="form-label">Serial Number</label>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text"> <i class="fa-solid fa-list-ol"></i></span>
+                                                            <input type="number" class="form-control slug-title" name="serial" value="{{data.serial}}"
+                                                                id="heading" placeholder="Serial Number">
+                                                                </div>
+                                                        </div>
+                                                        
+                                                        
+                                                        <div class="col-md-6">
+                                                            <label for="home_name" class="form-label">home Heading</label>
+                                                             <div class="input-group">
+                                                                <span class="input-group-text"> <i class="fas fa-align-left"></i></span>
+                                                            <input type="text" class="form-control slug-title" name="heading" value="{{data.heading}}"
+                                                                id="heading" placeholder="home Heading">
+                                                                </div>
+                                                        </div>
+                                                      
+                                                        <div class="col-md-6">
+                                                            <label for="image_url" class="form-label">Image URL</label>
+                                                             <div class="input-group">
+                                                                <span class="input-group-text"> <i class="fas fa-align-left"></i></span>
+                                                            <input type="text" class="form-control slug-title" name="image_url" value="{{data.image_url}}"
+                                                                id="image_url" placeholder="Enter Image URL">
+                                                                </div>
+                                                        </div>
+                                                      
+                                                        
+                                                      
+                                                        <div class="col-md-12">
+                                                            <label for="home_url" class="form-label">home Description</label>
+                                                                <textarea class="form-control slug-title" id="description" name="description" placeholder="Enter Description">{{data.description}}</textarea>
+                                                        </div>
+                                                        
+											
+										</div>
+										<div>
+										    </div>
+										    <br>
+											<div class="col-md-12">
+															<button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+														</div>
+														</div>
+											</div>
+											  
+													
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- End Content -->
+			</div> <!-- End Content Wrapper -->
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById("add-office-form");
+    const submitBtn = document.getElementById("submitBtn");
+
+    submitBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const serial = document.querySelector('input[name="serial"]').value.trim();
+        const heading = document.querySelector('input[name="heading"]').value.trim();
+        const image_url = document.querySelector('input[name="image_url"]').value.trim();
+
+        if (!serial) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Serial Required',
+                text: 'Please enter a Serial Number.'
+            });
+            return;
+        }
+        if (!heading) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Heading Required',
+                text: 'Please enter the Heading.'
+            });
+            return;
+        }
+        if (!image_url) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Image URL Required',
+                text: 'Please enter the Image URL.'
+            });
+            return;
+        }
+
+        // Get CKEditor description
+        const rawDescription = CKEDITOR.instances.description.getData();
+        const cleanedDescription = rawDescription.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, '').trim();
+
+        if (!cleanedDescription) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Description Required',
+                text: 'Please fill in Description.'
+            });
+            return;
+        }
+
+        // Confirm and Submit
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to submit this Home Content?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#00cc99',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Submit it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+});
+</script>
+
+
+{%  endblock %}

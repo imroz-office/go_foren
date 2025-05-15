@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% load static %}
+{%  block start %}
+<style>
+    a {
+    color: #00cc99;
+    
+}
+
+.btn.btn-primary {
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+
+/*.form-control {*/
+   
+    /*margin-bottom: 30px;*/
+   
+/*}*/
+
+
+.btn.btn-primary:hover, .btn.btn-outline-primary:hover {
+    color: #ffffff;
+    background-color: #00a37b;
+    border-color: #00a37b;
+}
+</style>
+			<!-- CONTENT WRAPPER -->
+			<div class="ec-content-wrapper">
+				<div class="content">
+					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+						<div>
+							<h1>{% if is_edit %}Edit user{% else %}Add user{% endif %}</h1>
+							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+								<span><i class="mdi mdi-chevron-right"></i></span>{% if is_edit %}Edit user{% else %}Add user{% endif %}</p>
+						</div>
+						<div> 
+							<a href="{% url 'user_list' %}" class="btn btn-primary"> View All
+							</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<div class="card card-default">
+								<div class="card-header card-header-border-bottom">
+									<h2>{% if is_edit %}Edit user{% else %}Add user{% endif %}</h2>
+								</div>
+
+								<div class="card-body">
+    <div class="row ec-vendor-uploads">
+        <form id="add-office-form" class="row g-3" action="{% if is_edit %}{% url 'edit_user' data.id %}{% else %}{% url 'add_user' %}{% endif %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-lg-12">
+                <div class="ec-vendor-upload-detail">
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label for="username" class="form-label">Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" class="form-control slug-title" name="username" value="{{data.username}}" id="username" placeholder="Enter Name">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" class="form-control slug-title" name="email" value="{{data.email}}" id="email" placeholder="Enter Email">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="mobile" class="form-label">Mobile</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <input type="text" class="form-control slug-title" name="mobile" value="{{data.mobile}}" id="mobile" placeholder="Enter Mobile">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" class="form-control slug-title" name="password" value="{{data.password}}" id="password" placeholder="Enter password">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="role" class="form-label">Role</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                <select class="form-control" name="role" id="role">
+                                    <option value="">Select Role</option>
+                                    {% for r in roles %}
+                                        <option value="{{r.role}}" {% if data.role == r.role %}selected{% endif %}>{{r.role}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+							</div>
+						</div>
+					</div>
+				</div> <!-- End Content -->
+			</div> <!-- End Content Wrapper -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById("add-office-form");
+
+    const mobileInput = document.getElementById("mobile");
+    const officeNameInput = document.getElementById("username");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const roleInput = document.getElementById("role");
+
+    mobileInput.addEventListener("input", function() {
+        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+    });
+
+    officeNameInput.addEventListener("input", function() {
+        this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+    });
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const officeName = officeNameInput.value.trim();
+        const email = emailInput.value.trim();
+        const mobileNo = mobileInput.value.trim();
+        const password = passwordInput.value.trim();
+        const role = roleInput.value.trim();
+
+        const officeNamePattern = /^[A-Za-z\s]+$/;
+        const mobileNoPattern = /^[0-9]{10}$/;
+
+        if (!officeName) {
+            Swal.fire('Name Required', 'Please enter a Name.', 'error');
+            return;
+        } 
+        if (!email) {
+            Swal.fire('Email Required', 'Please enter an Email.', 'error');
+            return;
+        } 
+        if (!officeName.match(officeNamePattern)) {
+            Swal.fire('Invalid Name', 'Only letters and spaces allowed.', 'error');
+            return;
+        }
+        if (!mobileNo) {
+            Swal.fire('Mobile Number Required', 'Please enter a Mobile Number.', 'error');
+            return;
+        } 
+        if (!mobileNo.match(mobileNoPattern)) {
+            Swal.fire('Invalid Mobile', 'Enter exactly 10 digits.', 'error');
+            return;
+        }
+        if (!password) {
+            Swal.fire('Password Required', 'Please set a Password.', 'error');
+            return;
+        } 
+        if (!role) {
+            Swal.fire('Role Required', 'Please select a Role.', 'error');
+            return;
+        } 
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to submit?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#00cc99',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Submit it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit with AJAX
+                $.ajax({
+                    url: form.getAttribute('action'),
+                    type: 'POST',
+                    data: $(form).serialize(),
+                    headers: { "X-CSRFToken": "{{ csrf_token }}" },
+                    success: function(response) {
+                        if (response.status === "error") {
+                            Swal.fire("Error", response.message, "error");
+                        } else {
+                            Swal.fire("Success", response.message, "success").then(() => {
+                                window.location.href = "{% url 'user_list' %}";
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire("Error", "Something went wrong!", "error");
+                    }
+                });
+            }
+        });
+    });
+});
+</script>
+
+
+{%  endblock %}

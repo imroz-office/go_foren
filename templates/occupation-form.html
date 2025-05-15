@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+{% block start %}
+<!-- CONTENT WRAPPER -->
+
+<style>
+    a {
+    color: #00cc99;
+    
+}
+
+.btn.btn-primary {
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+
+
+.btn.btn-primary:hover, .btn.btn-outline-primary:hover {
+    color: #ffffff;
+    background-color: #00a37b;
+    border-color: #00a37b;
+}
+</style>
+
+<div class="ec-content-wrapper">
+    <div class="content">
+        <div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+            <div>
+                <h1>{% if is_edit %}Edit occupation{% else %}Add occupation{% endif %}</h1>
+                <p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+                    <span><i class="mdi mdi-chevron-right"></i></span>{% if is_edit %}Edit occupation{% else %}Add occupation{% endif %}</p>
+            </div>
+            <div>
+                <a href="{% url 'occupation_list' %}" class="btn btn-primary"> View All </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-header card-header-border-bottom">
+                        <h2>{% if is_edit %}Edit occupation{% else %}Add occupation{% endif %}</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row ec-vendor-uploads">
+                                    <form id="cityForm" class="form row g-3" action="{% if is_edit %}{% url 'edit_occupation' occupation.id %}{% else %}{% url 'add_occupation' %}{% endif %}" method="post">
+                            <div class="col-lg-12">
+                                <div class="ec-vendor-upload-detail">
+                                        {% csrf_token %}
+
+                                        <div class="col-md-6">
+                                            <label for="occupation" class="form-label">occupation Name</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            <input type="text" class="form-control" name="occupation" id="occupation" placeholder="Enter occupation" {% if is_edit %}value="{{occupation.occupation}}"{% else %}Add occupation{% endif %} required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-primary" id="submitBtn">Save</button>
+                                        </div>
+                                </div>
+                            </div>
+                                    </form>
+                        </div>
+                    </div> <!-- End Card Body -->
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Content -->
+</div> <!-- End Content Wrapper -->
+
+<!-- SweetAlert & Validation Script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("cityForm");
+    const submitBtn = document.getElementById("submitBtn");
+
+    // Only letters and spaces for City and State fields
+    ['occupation'].forEach(function (fieldName) {
+        const input = form.querySelector(`input[name="${fieldName}"]`);
+        input.addEventListener('input', function () {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+        });
+    });
+
+    submitBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        // const city = form.querySelector('input[name="city"]');
+        // const state = form.querySelector('input[name="state"]');
+        const occupationInput = form.querySelector('input[name="occupation"]');
+        const occupation = occupationInput.value.trim();
+
+
+        // [occupation].forEach(field => {
+        //     if (!field.value.trim()) {
+        //         field.classList.add("is-invalid");
+        //         isValid = false;
+        //     } else {
+        //         field.classList.remove("is-invalid");
+        //     }
+        // });
+
+        if (!occupation) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Missing Fields',
+                text: 'Please Add an occupation.'
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You are about to Submit.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Submit!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+{%  block start %}
+
+<style>
+    a {
+    color: #00cc99;
+    
+}
+
+.btn.btn-primary {
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+
+
+</style>
+			<!-- CONTENT WRAPPER -->
+			<div class="ec-content-wrapper">
+				<div class="content">
+					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+						<div>
+							<h1>Home Content Deatils of {{data.heading}}</h1>
+							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+								<span><i class="mdi mdi-chevron-right"></i></span>Home Content Details</p>
+						</div>
+						<!--<div>          -->
+						<!--	<a href="#" class="btn btn-primary">Visa Inquiry List</a>-->
+						<!--</div>-->
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<div class="card card-default">
+								<div class="card-body">
+									<div class="table-responsive">
+										<table id="responsive-data-table" class="table">
+											<tbody>
+												<tr style="color:black;"> 
+													<th>Information</th>
+													<th>Detail</th>
+												</tr>
+												<tr>
+													<th>ID</th>
+													<td>{{data.id}}</td>
+												</tr>
+												
+												<tr>
+													<th>Serial Number</th>
+													<td>{{data.serial}}</td>
+												</tr>
+												
+												<tr>
+													<th>Home Content</th>
+													<td>{{data.heading}}</td>
+												</tr>
+												
+												<tr>
+													<th>Image</th>
+													<td><a target="_blank" href="{{data.image_url}}"><img src="https://drive.google.com/thumbnail?id={{data.image_id}}" style="height:40px"/></a></td>
+												</tr>
+												
+												<tr>
+													<th>Image URL</th>
+													<td>{{data.image_url}}</td>
+												</tr>
+												<tr>
+													<th>Image ID</th>
+													<td>{{data.image_id}}</td>
+												</tr>
+												<tr>
+													<th>Description</th>
+													<td>{{data.description}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- End Content -->
+			</div> <!-- End Content Wrapper -->
+
+{%  endblock %}		

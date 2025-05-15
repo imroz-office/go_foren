@@ -1,0 +1,312 @@
+{% extends "base.html" %}
+{% load static %}
+{%  block start %}
+
+
+<style>
+    a {
+    color: #00cc99;
+    
+}
+
+.btn.btn-primary {
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+
+/*.form-control {*/
+   
+/*    margin-bottom: 30px;*/
+   
+/*}*/
+</style>
+			<!-- CONTENT WRAPPER -->
+			<div class="ec-content-wrapper">
+				<div class="content">
+					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+						<div>
+							<h1>{% if is_edit %}Edit About Founder{% else %}Add About Founder{% endif %}</h1>
+							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+								<span><i class="mdi mdi-chevron-right"></i></span>{% if is_edit %}Edit About Founder{% else %}Add About Founder{% endif %}</p>
+						</div>
+						<div> 
+							<a href="{% url 'about_founder_list' %}" class="btn btn-primary"> View All
+							</a>
+						</div>
+					</div>
+					<div class="row"> 
+						<div class="col-12">
+							<div class="card card-default">
+								<div class="card-header card-header-border-bottom">
+									<h2>{% if is_edit %}Edit About Founder{% else %}Add About Founder{% endif %}</h2>
+								</div>
+
+								<div class="card-body">
+									<div class="row ec-vendor-uploads">  
+										<form id="add-office-form" class=" row g-3" action="{% url 'edit_about_founder' 2 %}" method="post" enctype="multipart/form-data">
+											{% csrf_token %}
+											<div class="col-lg-4">
+												<div class="ec-vendor-img-upload">
+												     <label for="serial" class="form-label">
+
+CAREER OF FOUNDER SIR
+&nbsp;<a style="color:red;">(482px*380px)</a></label>
+													<div class="ec-vendor-main-img">
+														<div class="avatar-upload">
+															<div class="avatar-edit">
+																<input type='file' name="o_g_pic" id="about_founderUpload"
+																	class="ec-about_founder-upload" accept=".png, .jpg, .jpeg" />
+																<label for="about_founderUpload">
+																	<img src="/go_foren/assets/img/icons/edit.svg"
+																		class="svg_img header_svg" alt="edit" />
+																</label>
+															</div>
+															{% if is_edit %}
+															<div class="avatar-preview ec-preview">
+																<div class="about_founderPreview ec-div-preview">
+																	<img class="ec-about_founder-preview"
+																		src="/go_foren/{{data.o_g_pic.url}}"
+																		alt="edit" />
+																</div>
+															</div>
+															{% else %}
+															<div class="avatar-preview ec-preview">
+																<div class="about_founderPreview ec-div-preview">
+																	<img class="ec-about_founder-preview"
+																		src="https://sitsoftwares.co.in/go_foren/media/other/default/default.jpeg"
+																		alt="edit" style="width:100%;"/>
+																</div>
+															</div>
+															{% endif %}
+														</div>
+			
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-lg-8">
+												<div class="ec-vendor-upload-detail">
+
+													<div class="row g-3">
+
+                                                        <!-- Correct Office/Godown Name input -->
+                                                        <div class="col-md-6">
+                                                            <label for="serial" class="form-label">Serial Number</label>
+                                                                  <div class="input-group">
+                                                           <span class="input-group-text"><i class="fa-solid fa-list-ol"></i></span>
+                                                            <input type="number" class="form-control slug-title" name="serial" value="{{data.ofc_godown_name}}"
+                                                                id="heading" placeholder="Serial Number">
+                                                        </div>
+                                                        </div>
+                                                        <!-- Correct Office/Godown Name input -->
+                                                        <div class="col-md-6">
+                                                            <label for="about_founder_name" class="form-label">about_founder Heading</label>
+                                                                    <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-align-left"></i></span>
+                                                            <input type="text" class="form-control slug-title" name="heading" value="{{data.ofc_godown_name}}"
+                                                                id="heading" placeholder="about_founder Heading">
+                                                        </div>
+                                                        </div>
+                                                        <!-- Correct Office/Godown Name input -->
+                                                      
+                                                         <div class="col-md-12">
+                                                            <label for="about_founder_url" class="form-label">about_founder Description</label>
+                                                                <textarea class="form-control slug-title" id="description" name="description" placeholder="Enter Description">{{data.description}}</textarea>
+                                                        </div>
+                                                     
+                                                        
+													</div>
+													
+												</div>
+										    <div>
+										        <br>
+										    	<div class="col-md-12">
+															<button type="submit" class="btn btn-primary">Submit</button>
+												</div>
+														</div>
+											</div>
+											 
+													
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- End Content -->
+			</div> <!-- End Content Wrapper -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById("add-office-form");
+
+    const mobileInput = document.getElementById("m_no");
+    const officeNameInput = document.getElementById("o_name");
+
+    // ðŸ”¹ Mobile No: Only digits, max 10 characters
+    mobileInput.addEventListener("input", function() {
+        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+    });
+
+    // ðŸ”¹ Office Name: Only letters and spaces
+    officeNameInput.addEventListener("input", function() {
+        this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+    });
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const officeName = officeNameInput.value.trim();
+        const mobileNo = mobileInput.value.trim();
+        const address = document.getElementById("address").value.trim();
+        const state = document.querySelector('select[name="o_g_state"]').value;
+        const city = document.querySelector('select[name="o_g_city"]').value;
+
+        // Validation patterns (for backup validation)
+        const officeNamePattern = /^[A-Za-z\s]+$/;
+        const mobileNoPattern = /^[0-9]{10}$/;
+        const addressPattern = /^[A-Za-z0-9\s\,\.\-\#]+$/;
+
+        if (!officeName) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Office Name Required',
+                text: 'Please enter the Office/Godown name.'
+            });
+            return;
+        } 
+        if (!officeName.match(officeNamePattern)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Office Name',
+                text: 'Only characters and spaces are allowed in the Office Name.'
+            });
+            return;
+        }
+        if (!mobileNo) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Mobile Number Required',
+                text: 'Please enter a Mobile Number.'
+            });
+            return;
+        } 
+        if (!mobileNo.match(mobileNoPattern)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Mobile Number',
+                text: 'Mobile number should be exactly 10 digits and only numbers.'
+            });
+            return;
+        }
+        if (!state) {
+            Swal.fire({
+                icon: 'error',
+                title: 'State Required',
+                text: 'Please select a State.'
+            });
+            return;
+        }
+        if (!city) {
+            Swal.fire({
+                icon: 'error',
+                title: 'City Required',
+                text: 'Please select a City.'
+            });
+            return;
+        }
+        if (!address) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Address Required',
+                text: 'Please enter an Address.'
+            });
+            return;
+        } 
+
+        // âœ… All good â€” ask for confirmation
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to submit this Office?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Submit it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const cityDropdown = document.getElementById("o_g_city");
+    const stateDropdown = document.getElementById("o_g_state");
+
+    cityDropdown.addEventListener("change", function () {
+        const cityId = this.value;
+
+        if (!cityId) {
+            stateDropdown.innerHTML = '<option value="">Select State..</option>';
+            return;
+        }
+
+        fetch(`/sit_vastra/get-state-by-city/${cityId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.state_name) {
+                    stateDropdown.innerHTML = `<option value="">Select State..</option>
+                                               <option selected value="${data.state_id}">${data.state_name}</option>`;
+                } else {
+                    stateDropdown.innerHTML = '<option value="">State not found</option>';
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching state:", error);
+                stateDropdown.innerHTML = '<option value="">Error loading state</option>';
+            });
+    });
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const stateDropdown = document.getElementById("o_g_state");
+    const cityDropdown = document.getElementById("o_g_city");
+
+    stateDropdown.addEventListener("change", function () {
+        const stateName = this.value;
+
+        if (!stateName) {
+            cityDropdown.innerHTML = '<option value="">Select City..</option>';
+            return;
+        }
+
+        fetch(`/sit_vastra/get-cities-by-state/?state=${encodeURIComponent(stateName)}`)
+            .then(response => response.json())
+            .then(data => {
+                cityDropdown.innerHTML = '<option value="">Select City..</option>';
+                data.cities.forEach(city => {
+                    cityDropdown.innerHTML += `<option value="${city.id}">${city.name}</option>`;
+                });
+                cityDropdown.disabled = false;
+            })
+            .catch(error => {
+                console.error("Error fetching cities:", error);
+                cityDropdown.innerHTML = '<option value="">Error loading cities</option>';
+            });
+    });
+});
+</script>
+
+
+{%  endblock %}

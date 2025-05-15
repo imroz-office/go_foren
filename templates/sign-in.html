@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="GoForen - Admin Dashboard HTML Template.">
+
+	<title>GoForen LogIn</title>
+
+	<!-- GOOGLE FONTS -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;700;900&display=swap"
+		rel="stylesheet">
+
+	<link href="https://cdn.materialdesignicons.com/4.4.95/css/materialdesignicons.min.css" rel="stylesheet" />
+
+	<!-- GoForen CSS -->
+	<link id="ekka-css" rel="stylesheet" href="https://sitsoftwares.co.in/go_foren/assets/css/ekka.css" />
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Add this to your <head> section to include Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+
+	<!-- FAVICON -->
+	<link href="https://sitsoftwares.co.in/go_foren/assets/img/feb.png" rel="shortcut icon" />
+</head>
+
+<body class="sign-inup" id="body" style="background-image:url(/go_foren/assets/img/banner/og.jpg)">
+	<div class="container d-flex align-items-center justify-content-center form-height-login pt-24px pb-24px">
+		<div class="row justify-content-center">
+		    
+						
+	<style>
+	    .btn.btn-primary {
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+
+
+
+.sidebar .nav > li.active > a i {
+    color: #00cc99 !important;
+}
+
+.ec-sidebar-light .sidebar .nav > li.active > a {
+    color: #00cc99 !important;
+}
+
+	</style>						
+					
+			<div class="col-lg-6 col-md-10">
+			    		
+				<div class="card" style="background-color: #f0f8ff17 !important;">
+				    <div style="text-align: center;    margin-top: 10px;">
+				    <img  style="width:65%;" class="ec-brand-icon" src="https://sitsoftwares.co.in/go_foren/assets/img/logo/logo.png" alt="" />
+					</div>
+					<!--<div class="card-header bg-primary" style="background-color: #fff !important;">-->
+					<!--	<div class="ec-brand">-->
+					<!--		<a title="GoForen">-->
+					<!--			<img class="ec-brand-icon" src="https://sitsoftwares.co.in/go_foren/assets/img/logo/logo.png" alt="" />-->
+					<!--		</a>-->
+					<!--	</div>-->
+					<!--</div>-->
+					<div class="card-body p-5" style="text-align: center; ">
+						<h4 class="mb-5" style="color:#fff;">Sign In</h4>
+
+						<form class="form g-3" action="{% url 'login' %}" method="post">
+
+							{% csrf_token %}
+							<div class="row">
+								<!--<div class="form-group col-md-12 mb-4">-->
+								<!--	<input type="text" required maxlength="10" class="form-control" name="mobile"-->
+								<!--		id="email" placeholder="Mobile Number">-->
+								<!--</div>-->
+
+								<!--<div class="form-group col-md-12 ">-->
+								<!--	<input type="password" required maxlength="9" class="form-control" id="password"-->
+								<!--		name="password" placeholder="Password">-->
+								<!--</div>-->
+								
+								<div class="form-group col-md-12 mb-4">
+                                <div class="input-group">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                  </div>
+                                  <input type="text" required maxlength="10" class="form-control" name="mobile" id="email" placeholder="Mobile Number">
+                                </div>
+                              </div>
+                            
+                              <div class="form-group col-md-12 position-relative">
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                </div>
+                                <input type="password" required maxlength="9" class="form-control pr-5" style="border-top-right-radius: 15px;border-bottom-right-radius: 15px;" id="password" name="password" placeholder="Password">
+                                <i class="fas fa-eye position-absolute" id="toggle-password" style="top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"></i>
+                              </div>
+                            </div>
+
+								<div class="col-md-12">
+									<button type="submit" class="btn btn-primary btn-block mb-4">Sign In</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% if incorrect_password %}
+<script>
+	Swal.fire({
+		icon: 'error',
+		title: 'Incorrect Password',
+		text: 'The password you entered is incorrect.',
+		confirmButtonColor: '#3085d6',
+		confirmButtonText: 'Try Again'
+	});
+</script>
+{% endif %}
+
+{% if user_not_valid %}
+<script>
+	Swal.fire({
+		icon: 'error',
+		title: 'User Not Found',
+		text: 'No account exists with the provided mobile number.',
+		confirmButtonColor: '#3085d6',
+		confirmButtonText: 'Try Again'
+	});
+</script>
+{% endif %}
+	<!-- Javascript -->
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/jquery/jquery-3.5.1.min.js"></script>
+	<script src="https://sitsoftwares.co.in/go_foren/assets/js/bootstrap.bundle.min.js"></script>
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/jquery-zoom/jquery.zoom.min.js"></script>
+	<script src="https://sitsoftwares.co.in/go_foren/assets/plugins/slick/slick.min.js"></script>
+
+	<!-- GoForen Custom -->
+	<script src="https://sitsoftwares.co.in/go_foren/assets/js/ekka.js"></script>
+	
+	<!-- Password hide and view -->
+<script>
+  // Toggle password visibility
+  const togglePasswordButton = document.getElementById('toggle-password');
+  const passwordField = document.getElementById('password');
+
+  togglePasswordButton.addEventListener('click', function () {
+    const type = passwordField.type === 'password' ? 'text' : 'password';
+    passwordField.type = type;
+
+    // Toggle the icon
+    togglePasswordButton.classList.toggle('fa-eye');
+    togglePasswordButton.classList.toggle('fa-eye-slash');
+  });
+</script>
+	
+</body>
+
+</html>
