@@ -26,7 +26,7 @@ def get_all_occupation():
     return occupation
 
 def get_all_course():
-    course = tbl_course.objects.all().order_by("course")
+    course = tbl_courses.objects.all().order_by("course")
     return course
 
 def get_all_team():
@@ -34,7 +34,7 @@ def get_all_team():
     return team
     
 def get_all_visa_type():
-    visa_type = tbl_visa_services.objects.all().order_by("visa_type")
+    visa_type = tbl_visa_service.objects.all().order_by("visa_type")
     return visa_type
     
 def get_all_role():
@@ -1030,7 +1030,75 @@ def delete_team(request, id):
     data.delete()
     request.session["delete_success"] = True
     return redirect('team_list')
+
+# faq
+
+@login_required_custom
+def add_faq(request):
+    if request.method == "POST":
+        question = request.POST.get("question")
+        answer = request.POST.get("answer")
+        tbl_faq.objects.create(
+            question = question,
+            answer = answer,
+            )
+        request.session["add_success"] = True
+        return redirect(faq_list)
+    return render(request, "faq-form.html")
+
+@login_required_custom
+def faq_list(request):
+    faq_queryset = tbl_faq.objects.all().order_by("-id")
     
+    paginator = Paginator(faq_queryset, 10) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    add_success = request.session.pop("add_success", None)
+    update_success = request.session.pop("update_success", None)
+    delete_success = request.session.pop("delete_success", None)
+    
+    context = {
+        "add_success": add_success,
+        "update_success": update_success,
+        "delete_success": delete_success,
+        "record_name": "faq Content",
+        "data": page_obj.object_list,
+        "page_obj": page_obj,
+    }
+    return render(request, "faq-list.html", context)
+    
+@login_required_custom
+def faq_view(request, id):
+    data = get_object_or_404(tbl_faq, id=id)
+    context = {
+        "data":data,
+    }
+    return render(request, "faq-view.html", context)
+
+@login_required_custom
+def edit_faq(request, id):
+    data = get_object_or_404(tbl_faq, id=id)
+    if request.method == "POST":
+        data.question = request.POST.get("question")
+        data.answer = request.POST.get("answer")
+        data.save()
+        request.session["update_success"] = True
+        return redirect('faq_list') 
+    context = {
+        "data": data,
+        "is_edit": True,
+    }
+    return render(request, "faq-form.html", context)
+    
+@login_required_custom
+def delete_faq(request, id):
+    data = get_object_or_404(tbl_faq, id=id)
+    data.delete()
+    request.session["delete_success"] = True
+    return redirect('faq_list')  
+    
+
 # ============================================================ Blog ============================================================
 
 # blog
@@ -1583,6 +1651,12 @@ def get_occupation_data(request):
     serializer = OccupationSerializer(occupations, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def get_faq_data(request):
+    faq_items = tbl_faq.objects.all().order_by('-id') 
+    serializer = FaqSerializer(faq_items, many=True)
+    return Response(serializer.data)
+
 # ============================================= [GET type (Detail) API] =============================================
 
 @api_view(['GET'])
@@ -1675,3 +1749,4 @@ def get_visa_service_detail(request, id):
 
     serializer = VisaServiceSerializer(visa)
     return Response(serializer.data)
+

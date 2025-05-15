@@ -99,6 +99,13 @@ urlpatterns = [
     path('edit_team/<int:id>', views.edit_team, name='edit_team'),
     path('delete_team/<int:id>', views.delete_team, name='delete_team'),
     
+    # faq
+    path('add_faq/', views.add_faq, name='add_faq'),
+    path('faq_list/', views.faq_list, name='faq_list'),
+    path('faq_view/<int:id>', views.faq_view, name='faq_view'),
+    path('edit_faq/<int:id>', views.edit_faq, name='edit_faq'),
+    path('delete_faq/<int:id>', views.delete_faq, name='delete_faq'),
+    
     # ======================= About US =======================
     
     # about_us 
@@ -151,6 +158,7 @@ urlpatterns = [
     path('get_about_us_data/', views.get_about_us_data, name='get_about_us_data'),
     path('get_country_data/', views.get_country_data, name='get_country_data'),
     path('get_occupation_data/', views.get_occupation_data, name='get_occupation_data'),
+    path('get_faq_data/', views.get_faq_data, name='get_faq_data'),
 
 
     # ======================= [GET type API (detail)] =======================

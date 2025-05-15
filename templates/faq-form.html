@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+{%  block start %}
+
+
+<style>
+    a {
+    color: #00cc99;
+    
+}
+
+.btn.btn-primary {
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+
+/*.form-control {*/
+   
+/*    margin-bottom: 30px;*/
+   
+/*}*/
+
+
+.btn.btn-primary:hover, .btn.btn-outline-primary:hover {
+    color: #ffffff;
+    background-color: #00a37b;
+    border-color: #00a37b;
+}
+</style>
+			<!-- CONTENT WRAPPER -->
+			<div class="ec-content-wrapper">
+				<div class="content">
+					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+						<div>
+							<h1>{% if is_edit %}Edit FAQ Content{% else %}Add FAQ Content{% endif %}</h1>
+							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+								<span><i class="mdi mdi-chevron-right"></i></span>{% if is_edit %}Edit FAQ Content{% else %}Add FAQ Content{% endif %}</p>
+						</div>
+						<div> 
+							<a href="{% url 'faq_list' %}" class="btn btn-primary"> View All
+							</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<div class="card card-default">
+								<div class="card-header card-header-border-bottom">
+									<h2>{% if is_edit %}Edit FAQ Content{% else %}Add FAQ Content{% endif %}</h2>
+								</div>
+
+								<div class="card-body">
+									<div class="row ec-vendor-uploads">  
+										<form id="add-office-form" class=" row g-3" action="{% if is_edit %}{% url 'edit_faq' data.id %}{% else %}{% url 'add_faq' %}{% endif %}" method="post" enctype="multipart/form-data">
+											{% csrf_token %}
+
+											<div class="col-lg-12">
+											    <div class="ec-vendor-upload-detail">
+											<div class="row g-3">
+                                                        
+                                                        <div class="col-md-6">
+                                                            <label for="faq_name" class="form-label">Question</label>
+                                                             <div class="input-group">
+                                                                <span class="input-group-text"> <i class="fas fa-align-left"></i></span>
+                                                            <input type="text" class="form-control slug-title" name="question" value="{{data.question}}"
+                                                                id="heading" placeholder="faq Heading">
+                                                                </div>
+                                                        </div>
+                                                   
+                                                      
+                                                        <div class="col-md-12">
+                                                            <label for="faq_url" class="form-label">Answer</label>
+                                                                <textarea class="form-control slug-title" id="description" name="answer" placeholder="Enter Description">{{data.answer}}</textarea>
+                                                        </div>
+                                                        
+											
+										</div>
+										<div>
+										    </div>
+										    <br>
+											<div class="col-md-12">
+															<button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+														</div>
+														</div>
+											</div>
+											  
+													
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- End Content -->
+			</div> <!-- End Content Wrapper -->
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById("add-office-form");
+    const submitBtn = document.getElementById("submitBtn");
+
+    submitBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const question = document.querySelector('input[name="question"]').value.trim();
+        // const answer = document.querySelector('textarea[name="answer"]').value.trim();
+
+     
+        if (!question) {
+            Swal.fire({
+                icon: 'error',
+                title: 'question Required',
+                text: 'Please enter the question.'
+            });
+            return;
+        }
+        // if (!asnwer) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Answer Required',
+        //         text: 'Please enter the Answer.'
+        //     });
+        //     return;
+        // }
+
+        // Get CKEditor description
+        const rawDescription = CKEDITOR.instances.description.getData();
+        const cleanedDescription = rawDescription.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, '').trim();
+
+        if (!cleanedDescription) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Answer Required',
+                text: 'Please fill in Answer.'
+            });
+            return;
+        }
+
+        // Confirm and Submit
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to submit this FAQ Content?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#00cc99',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Submit it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+});
+</script>
+
+
+{%  endblock %}

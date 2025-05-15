@@ -117,6 +117,19 @@ class tbl_team(models.Model):
 
     def __str__(self):
         return self.name
+        
+# FAQ table
+class tbl_faq(models.Model): 
+    question = models.CharField(max_length=50, null=True)
+    answer = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'tbl_faq'
+
+    def __str__(self):
+        return self.question
 
 
 # ========================= FOR ABOUT US  =========================

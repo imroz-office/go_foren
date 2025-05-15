@@ -71,3 +71,8 @@ class OccupationSerializer(serializers.ModelSerializer):
     class Meta:
         model = tbl_occupation
         fields = '__all__'
+
+class FaqSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tbl_faq
+        fields = '__all__'
