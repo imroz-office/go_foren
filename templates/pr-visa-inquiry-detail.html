@@ -1,115 +1,194 @@
 {% extends "base.html" %}
 {% load static %}
-{%  block start %}
+{% block start %}
 
 <style>
     a {
-    color: #00cc99;
-    
-}
-
-.btn.btn-primary {
-    color: #ffffff;
-    background-color: #00cc99;
-    border-color: #00cc99;
-}
-
-
+        color: #00cc99;
+    }
+    .btn.btn-primary {
+        color: #ffffff;
+        background-color: #00cc99;
+        border-color: #00cc99;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+    th, td {
+        padding: 8px 12px;
+        text-align: left;
+    }
+    th {
+        background-color: #00cc99;
+        color: white;
+    }
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .section-title {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        color: #00cc99;
+        border-bottom: 2px solid #00cc99;
+        padding-bottom: 5px;
+    }
 </style>
-			<!-- CONTENT WRAPPER -->
-			<div class="ec-content-wrapper">
-				<div class="content">
-					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
-						<div>
-							<h1>Visa Inquiry Deatils of {{inq.name}}</h1>
-							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
-								<span><i class="mdi mdi-chevron-right"></i></span>Visa Inquiry Details</p>
-						</div>
-						<!--<div>          -->
-						<!--	<a href="#" class="btn btn-primary">Visa Inquiry List</a>-->
-						<!--</div>-->
-					</div>
-					<div class="row">
-						<div class="col-12">
-							<div class="card card-default">
-								<div class="card-body">
-									<div class="table-responsive">
-										<table id="responsive-data-table" class="table">
-                                                    <!--<th>Image</th>-->
 
-											<tbody>
-												<tr style="color:black;"> 
-													<th>Content</th>
-													<th>Detail</th>
-												</tr>
-												<tr>
-													<th>ID</th>
-													<td>{{inq.id}}</td>
-												</tr>
-												
-												<tr>
-													<th>Name</th>
-													<td>{{inq.name}}</td>
-												</tr>
-												
-												<tr>
-													<th>Mobile NO</th>
-													<td>{{inq.number}}</td>
-												</tr>
-												
-												<tr>
-													<th>Email</th>
-													<td>{{inq.email}}</td>
-												</tr>
-												
-												<tr>
-													<th>Date & Time</th>
-													<td>{{inq.created_at}}</td>
-												</tr>
-												
-												<tr>
-													<th>Desired Country</th>
-													<td>{{inq.desired_country}}</td>
-												</tr>
-												
-												<tr>
-													<th>Desired Visa Service</th>
-													<td>{{inq.desired_visa_service}}</td>
-												</tr>
-												
-    											<tr>
-                                                    <th>Resume</th>
-                                                    <td>
-                                                        {% if inq.resume %}
-                                                            <a href="/go_foren/{{ inq.resume.url }}" target="_blank">View Resume (PDF)</a>
-                                                        {% else %}
-                                                            No resume uploaded.
-                                                        {% endif %}
-                                                    </td>
-                                                </tr>
+<div class="ec-content-wrapper">
+    <div class="content">
+        <div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+            <div>
+                <h1>PR Visa Inquiry Details of {{ inq.name }}</h1>
+                <p class="breadcrumbs">
+                    <span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+                    <span><i class="mdi mdi-chevron-right"></i></span>PR Visa Inquiry Details
+                </p>
+            </div>
+        </div>
 
-												<tr>
-													<th>Intresed in Coaching</th>
-													<td>{% if inq.interested_in_coaching %}YES{% else %}NO{% endif %}</td>
-												</tr>
-												
-												<tr>
-													<th>Course</th>
-													<td>{{inq.course}}</td>
-												</tr>
-												
-												<tr>
-													<th>Message</th>
-													<td>{{inq.message}}</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div> <!-- End Content -->
-			</div> <!-- End Content Wrapper -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <h3 class="section-title">Personal Info</h3>
+                            <table>
+                                <tbody>
+                                    <tr><th>Name</th><td>{{ inq.name }}</td></tr>
+                                    <tr><th>Email</th><td>{{ inq.email }}</td></tr>
+                                    <tr><th>Number</th><td>{{ inq.number }}</td></tr>
+                                    <tr><th>Desired Country</th><td>{{ inq.desired_country }}</td></tr>
+                                    <tr><th>Desired Route</th><td>{{ inq.desired_visa_route }}</td></tr>
+                                    <tr><th>Date of Birth</th><td>{{ inq.dob|date:"Y-m-d" }}</td></tr>
+                                    {% comment %} Add more fields as needed {% endcomment %}
+                                    {% if inq.resume %}
+                                    <tr>
+                                        <th>Resume</th>
+                                        <td><a href="{{ inq.resume.url }}" target="_blank">Download</a></td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
 
-{%  endblock %}		
+                            <h3 class="section-title">Education Qualifications</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Qualification</th>
+                                        <th>Stream</th>
+                                        <th>Major</th>
+                                        <th>Year</th>
+                                        <th>%</th>
+                                        <th>Backlogs</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for edu in education_details %}
+                                    <tr>
+                                        <td>{{ edu.qualification }}</td>
+                                        <td>{{ edu.stream_of_degree }}</td>
+                                        <td>{{ edu.major_degree }}</td>
+                                        <td>{{ edu.year_of_completion }}</td>
+                                        <td>{{ edu.percentage }}</td>
+                                        <td>{{ edu.total_backlog }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr><td colspan="6">No education details found.</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <h3 class="section-title">Employment Details</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Designation</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Years</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for emp in employment_details %}
+                                    <tr>
+                                        <td>{{ emp.company }}</td>
+                                        <td>{{ emp.designation }}</td>
+                                        <td>{{ emp.from_date }}</td>
+                                        <td>{{ emp.to_date }}</td>
+                                        <td>{{ emp.no_of_years }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr><td colspan="5">No employment details found.</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <h3 class="section-title">Exam Details</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Exam</th>
+                                        <th>Listening</th>
+                                        <th>Reading</th>
+                                        <th>Writing</th>
+                                        <th>Speaking</th>
+                                        <th>Final Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ex in exam_details %}
+                                    <tr>
+                                        <td>{{ ex.exam }}</td>
+                                        <td>{{ ex.listening }}</td>
+                                        <td>{{ ex.reading }}</td>
+                                        <td>{{ ex.writing }}</td>
+                                        <td>{{ ex.speaking }}</td>
+                                        <td>{{ ex.final_score }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr><td colspan="6">No exam details found.</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <h3 class="section-title">Test Details</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Exam</th>
+                                        <th>Verbal</th>
+                                        <th>Quantitative</th>
+                                        <th>Analytical</th>
+                                        <th>Final Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for test in test_details %}
+                                    <tr>
+                                        <td>{{ test.exam }}</td>
+                                        <td>{{ test.verbal_reasoning }}</td>
+                                        <td>{{ test.quantitative_reasoning }}</td>
+                                        <td>{{ test.analytical_writing }}</td>
+                                        <td>{{ test.final_score }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr><td colspan="5">No test details found.</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Content -->
+</div> <!-- End Content Wrapper -->
+
+{% endblock %}

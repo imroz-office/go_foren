@@ -1527,12 +1527,22 @@ def pr_visa_inquiry_view(request):
     }
     return render(request, "pr-visa-inquiry-list.html", context)
 
-
 @login_required_custom
 def pr_visa_inquiry_detail(request, id):
     inq = get_object_or_404(tbl_pr_visa_inquiry, id=id)
+    inquiry_id = inq.inquiry_id
+
+    education_details = tbl_education_qualification.objects.filter(inquiry_id=inquiry_id)
+    employment_details = tbl_employeement_detail.objects.filter(inquiry_id=inquiry_id)
+    exam_details = tbl_exam_detail.objects.filter(inquiry_id=inquiry_id)
+    test_details = tbl_test_detail.objects.filter(inquiry_id=inquiry_id)
+
     context = {
         "inq": inq,
+        "education_details": education_details,
+        "employment_details": employment_details,
+        "exam_details": exam_details,
+        "test_details": test_details,
     }
     return render(request, "pr-visa-inquiry-detail.html", context)
 
@@ -1668,12 +1678,24 @@ def student_visa_inquiry_view(request):
 
 @login_required_custom
 def student_visa_inquiry_detail(request, id):
-    inq = get_object_or_404(tbl_student_visa_inquiry, id=id)
-    context = {
-        "inq": inq,
-    }
-    return render(request, "student-visa-inquiry-detail.html", context)
+    inq = tbl_student_visa_inquiry.objects.get(id=id)
+    inquiry_id = inq.inquiry_id
 
+    education_qualifications = tbl_education_qualification.objects.filter(inquiry_id=inquiry_id)
+    employments = tbl_employeement_detail.objects.filter(inquiry_id=inquiry_id)
+    exams = tbl_exam_detail.objects.filter(inquiry_id=inquiry_id)
+    tests = tbl_test_detail.objects.filter(inquiry_id=inquiry_id)
+    intended_study = tbl_intended_study.objects.filter(inquiry_id=inquiry_id).first()
+
+    context = {
+        'inq': inq,
+        'education_qualifications': education_qualifications,
+        'employments': employments,
+        'exams': exams,
+        'tests': tests,
+        'intended_study': intended_study,
+    }
+    return render(request, 'student-visa-inquiry-detail.html', context)
 
 @login_required_custom
 def delete_student_visa_inquiry(request, id):
