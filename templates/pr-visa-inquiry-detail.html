@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+{%  block start %}
+
+<style>
+    a {
+    color: #00cc99;
+    
+}
+
+.btn.btn-primary {
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+
+
+</style>
+			<!-- CONTENT WRAPPER -->
+			<div class="ec-content-wrapper">
+				<div class="content">
+					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+						<div>
+							<h1>Visa Inquiry Deatils of {{inq.name}}</h1>
+							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+								<span><i class="mdi mdi-chevron-right"></i></span>Visa Inquiry Details</p>
+						</div>
+						<!--<div>          -->
+						<!--	<a href="#" class="btn btn-primary">Visa Inquiry List</a>-->
+						<!--</div>-->
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<div class="card card-default">
+								<div class="card-body">
+									<div class="table-responsive">
+										<table id="responsive-data-table" class="table">
+                                                    <!--<th>Image</th>-->
+
+											<tbody>
+												<tr style="color:black;"> 
+													<th>Content</th>
+													<th>Detail</th>
+												</tr>
+												<tr>
+													<th>ID</th>
+													<td>{{inq.id}}</td>
+												</tr>
+												
+												<tr>
+													<th>Name</th>
+													<td>{{inq.name}}</td>
+												</tr>
+												
+												<tr>
+													<th>Mobile NO</th>
+													<td>{{inq.number}}</td>
+												</tr>
+												
+												<tr>
+													<th>Email</th>
+													<td>{{inq.email}}</td>
+												</tr>
+												
+												<tr>
+													<th>Date & Time</th>
+													<td>{{inq.created_at}}</td>
+												</tr>
+												
+												<tr>
+													<th>Desired Country</th>
+													<td>{{inq.desired_country}}</td>
+												</tr>
+												
+												<tr>
+													<th>Desired Visa Service</th>
+													<td>{{inq.desired_visa_service}}</td>
+												</tr>
+												
+    											<tr>
+                                                    <th>Resume</th>
+                                                    <td>
+                                                        {% if inq.resume %}
+                                                            <a href="/go_foren/{{ inq.resume.url }}" target="_blank">View Resume (PDF)</a>
+                                                        {% else %}
+                                                            No resume uploaded.
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+
+												<tr>
+													<th>Intresed in Coaching</th>
+													<td>{% if inq.interested_in_coaching %}YES{% else %}NO{% endif %}</td>
+												</tr>
+												
+												<tr>
+													<th>Course</th>
+													<td>{{inq.course}}</td>
+												</tr>
+												
+												<tr>
+													<th>Message</th>
+													<td>{{inq.message}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- End Content -->
+			</div> <!-- End Content Wrapper -->
+
+{%  endblock %}		

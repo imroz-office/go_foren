@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+{% block start %}
+<!-- CONTENT WRAPPER -->
+<div class="ec-content-wrapper">
+    <div class="content">
+        <div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+            <div>
+                <h1>Add Office</h1>
+                <p class="breadcrumbs"><span><a href="{% url 'demo' %}">Home</a></span>
+                    <span><i class="mdi mdi-chevron-right"></i></span>Add Office
+                </p>
+            </div>
+            <div>
+                <a href="{% url 'office_list' %}" class="btn btn-primary"> View All
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-header card-header-border-bottom">
+                        <h2>Office/Godown Name</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row ec-vendor-uploads">
+                            <form class="row g-3" id="add-office-form" action="{% url 'add_office_name' %}" method="post"
+                                enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="col-lg-4">
+                                    <div class="ec-vendor-img-upload">
+                                        <div class="ec-vendor-main-img">
+                                            <div class="avatar-upload">
+                                                <div class="avatar-edit">
+                                                    <input type='file' name="o_g_pic" id="imageUpload"
+                                                        class="ec-image-upload" accept=".png, .jpg, .jpeg" />
+                                                    <label for="imageUpload">
+                                                        <img src="/sit_vastra/assets/img/icons/edit.svg"
+                                                            class="svg_img header_svg" alt="edit" />
+                                                    </label>
+                                                </div>
+                                                <div class="avatar-preview ec-preview">
+                                                    <div class="imagePreview ec-div-preview">
+                                                        <img class="ec-image-preview"
+                                                            src="/sit_vastra/assets/img/products/vender-upload-preview.jpg"
+                                                            alt="edit" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="ec-vendor-upload-detail">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="inputEmail4" class="form-label">Office/Godown Name</label>
+                                                <input type="text" class="form-control" name="o_name"
+                                                    id="o_name" placeholder="Office/Godown Name" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="inputEmail4" class="form-label">Mobile NO</label>
+                                                <input type="text" class="form-control" name="m_no"
+                                                    id="m_no" placeholder="Enter Mobile Number" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Select State</label>
+                                                <select name="o_g_state" required aria-label="Select State"
+                                                    data-placeholder="Select State."
+                                                    class="form-select form-select-solid fw-bolder">
+                                                    <option value="">Select State..</option>
+                                                    {% for role in State %}  
+                                                    <option value="{{ role.id }}">{{ role.state }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Select City</label>
+                                                <select name="o_g_city" required aria-label="Select City"
+                                                    data-placeholder="Select City."
+                                                    class="form-select form-select-solid fw-bolder">
+                                                    <option value="">Select City..</option>
+                                                    {% for role in City %}  
+                                                    <option value="{{ role.id }}">{{ role.city }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="inputEmail4" class="form-label">Address</label>
+                                                <input type="text" class="form-control" name="address"
+                                                    id="address" placeholder="Address" required>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Content -->
+</div> <!-- End Content Wrapper -->
+{% endblock %}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Client-side validation for invalid characters
+    document.getElementById("add-office-form").addEventListener("submit", function(event) {
+        const officeName = document.getElementById("o_name").value;
+        const mobileNo = document.getElementById("m_no").value;
+        const address = document.getElementById("address").value;
+
+        // Regex patterns for validation
+        const officeNamePattern = /^[A-Za-z0-9\s\.\,\-]+$/;  // Allow letters, numbers, space, period, comma, hyphen
+        const mobileNoPattern = /^[0-9]{10}$/;  // Only 10 digits allowed
+        const addressPattern = /^[A-Za-z0-9\s\,\.\-\#]+$/;  // Allow letters, numbers, and some special chars
+
+        if (!officeName.match(officeNamePattern)) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Office Name',
+                text: 'Only letters, numbers, and certain symbols (.,-) are allowed in the Office Name.'
+            });
+        } else if (!mobileNo.match(mobileNoPattern)) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Mobile Number',
+                text: 'Mobile number should be exactly 10 digits.'
+            });
+        } else if (!address.match(addressPattern)) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Address',
+                text: 'Address can only contain letters, numbers, and some special characters (.,#-).'
+            });
+        }
+    });
+</script>

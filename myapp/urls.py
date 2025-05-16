@@ -3,7 +3,6 @@ from . import views
 
 urlpatterns = [
     # ======================= Authentication and User =======================
-    
     # rendering
     path('', views.open_sign_in_page, name='open_sign_in_page'),
     path('dashboard_view/', views.dashboard_view, name='dashboard_view'),
@@ -18,7 +17,6 @@ urlpatterns = [
     path('delete_user/<int:id>', views.delete_user, name='delete_user'),
 
     # ======================= Master =======================
-    
     # country
     path('add_country/', views.add_country, name='add_country'),
     path('country_list/', views.country_list, name='country_list'),
@@ -54,7 +52,6 @@ urlpatterns = [
     path('delete_occupation/<int:id>', views.delete_occupation, name='delete_occupation'),
 
     # ======================= Media =======================
-    
     # image
     path('add_image/', views.add_image, name='add_image'),
     path('image_list/', views.image_list, name='image_list'),
@@ -77,7 +74,6 @@ urlpatterns = [
     path('delete_success_story/<int:id>', views.delete_success_story, name='delete_success_story'),
 
     # ======================= Home =======================
-    
     # home
     path('add_home/', views.add_home, name='add_home'),
     path('home_list/', views.home_list, name='home_list'),
@@ -107,7 +103,6 @@ urlpatterns = [
     path('delete_faq/<int:id>', views.delete_faq, name='delete_faq'),
     
     # ======================= About US =======================
-    
     # about_us 
     path('add_about_us/', views.add_about_us, name='add_about_us'),
     path('about_us_list/', views.about_us_list, name='about_us_list'),
@@ -116,7 +111,6 @@ urlpatterns = [
     path('delete_about_us/<int:id>', views.delete_about_us, name='delete_about_us'),
 
     # ======================= Blog =======================
-
     # blog
     path('add_blog/', views.add_blog, name='add_blog'),
     path('blog_list/', views.blog_list, name='blog_list'),
@@ -132,17 +126,28 @@ urlpatterns = [
     path('delete_comments/<int:id>', views.delete_comments, name='delete_comments'),
     
     # ======================= Contact Us =======================
-    
     # visa inquiry (contact, visitor visa, investor Visa, WP visa)
     path('visa-inquiry/', views.submit_visa_inquiry, name='visa_inquiry'),
     path('inquiry_view/', views.inquiry_view, name='inquiry_view'),
     path('inq_detail/<int:id>', views.inq_detail, name='inq_detail'),
     path('delete_inquiry/<int:id>', views.delete_inquiry, name='delete_inquiry'),
 
+    # ======================= [POST type API] =======================
     # submit pr visa inquiry
     path('submit-pr-visa-inquiry/', views.submit_pr_visa_inquiry, name='submit_pr_visa_inquiry'),
 
-   
+    # PR Visa Inquiry URLs
+    path('pr_visa_inquiry_view', views.pr_visa_inquiry_view, name='pr_visa_inquiry_view'),
+    path('pr_visa_inquiry_detail/<int:id>/', views.pr_visa_inquiry_detail, name='pr_visa_inquiry_detail'),
+    path('delete_pr_visa_inquiry/<int:id>/', views.delete_pr_visa_inquiry, name='delete_pr_visa_inquiry'),
+
+    # submit student visa inquiry
+    path('submit_student_visa_inquiry/', views.submit_student_visa_inquiry, name='submit_student_visa_inquiry'),
+
+    # Student Visa Inquiry URLs
+    path('student_visa_inquiry_view/', views.student_visa_inquiry_view, name='student_visa_inquiry_view'),
+    path('student_visa_inquiry_detail/<int:id>/', views.student_visa_inquiry_detail, name='student_visa_inquiry_detail'),
+    path('delete_student_visa_inquiry/<int:id>/', views.delete_student_visa_inquiry, name='delete_student_visa_inquiry'),
 
     # ======================= [GET type API] =======================
     path('get_course_data/', views.get_course_data, name='get_course_data'),
@@ -160,7 +165,6 @@ urlpatterns = [
     path('get_occupation_data/', views.get_occupation_data, name='get_occupation_data'),
     path('get_faq_data/', views.get_faq_data, name='get_faq_data'),
 
-
     # ======================= [GET type API (detail)] =======================
     path('get_success_story_detail/<int:id>', views.get_success_story_detail, name='get_success_story_detail'),
     path('get_course_detail/<int:id>', views.get_course_detail, name='get_course_detail'),
@@ -171,6 +175,4 @@ urlpatterns = [
     path('get_news_detail/<int:id>', views.get_news_detail, name='get_news_detail'),
     path('get_team_detail/<int:id>', views.get_team_detail, name='get_team_detail'),
     path('get_visa_service_detail/<int:id>', views.get_visa_service_detail, name='get_visa_service_detail'),
-    
-
 ]

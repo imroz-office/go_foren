@@ -379,55 +379,27 @@ class tbl_inquiry_association(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-# student visa inquery
-class tbl_student_visa_inquiry(models.Model):
-    RELATION_CHOICES = [
-        ('Father', 'Father'),
-        ('Spouse', 'Spouse'),
-    ]
-
-    relation = models.CharField(max_length=10, choices=RELATION_CHOICES)
-    name = models.CharField(max_length=100)
-    father_name = models.CharField(max_length=100)
-    contact_number = models.CharField(max_length=15)
-    landline_number = models.CharField(max_length=15, blank=True, null=True)
-    alternate_number = models.CharField(max_length=15, blank=True, null=True)
-    email = models.EmailField()
-    date_of_birth = models.DateField()
-    desired_country = models.CharField(max_length=50)
-    present_occupation = models.CharField(max_length=50, null=True, blank=True)
-    additional_query = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'tbl_student_visa_inquiry'
-
-    def __str__(self):
-        return f"{self.name}"
-
-
 # PR visa inquery
 class tbl_pr_visa_inquiry(models.Model):
-    desired_country = models.CharField(max_length=50)
-    desired_visa_route = models.CharField(max_length=50)
-    relation = models.CharField(max_length=50)
-    name = models.CharField(max_length=100)
-    number = models.CharField(max_length=50)
-    landline = models.CharField(max_length=50)
-    alt_number = models.CharField(max_length=50)
-    email = models.CharField(max_length=50)
-    dob = models.DateTimeField()
-    marital_status = models.CharField(max_length=50)
-    no_of_child = models.CharField(max_length=50)
-    flat_no = models.CharField(max_length=100)
-    building_name = models.CharField(max_length=100)
-    road_street = models.CharField(max_length=100)
-    pincode = models.CharField(max_length=100)
-    area = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    inquiry_id = models.CharField(max_length=100)
-    resume = models.FileField(upload_to='resumes/')
+    desired_country = models.CharField(max_length=50, null=True , blank=True)
+    desired_visa_route = models.CharField(max_length=50, null=True , blank=True)
+    relation = models.CharField(max_length=50, null=True , blank=True)
+    name = models.CharField(max_length=100, null=True , blank=True)
+    number = models.CharField(max_length=50, null=True , blank=True)
+    landline = models.CharField(max_length=50, null=True , blank=True)
+    alt_number = models.CharField(max_length=50, null=True , blank=True)
+    email = models.CharField(max_length=50, null=True , blank=True)
+    dob = models.DateTimeField(null=True , blank=True)
+    marital_status = models.CharField(max_length=50, null=True , blank=True)
+    no_of_child = models.CharField(max_length=50, null=True , blank=True)
+    flat_no = models.CharField(max_length=100, null=True , blank=True)
+    building_name = models.CharField(max_length=100, null=True , blank=True)
+    road_street = models.CharField(max_length=100, null=True , blank=True)
+    pincode = models.CharField(max_length=100, null=True , blank=True)
+    area = models.CharField(max_length=100, null=True , blank=True)
+    city = models.CharField(max_length=100, null=True , blank=True)
+    inquiry_id = models.CharField(max_length=100, null=True , blank=True)
+    resume = models.FileField(upload_to='resumes/', null=True , blank=True)
 
     # education_qualification = models.CharField(max_length=100)
     # employeement_detail = models.CharField(max_length=100)
@@ -442,15 +414,16 @@ class tbl_pr_visa_inquiry(models.Model):
 
     def __str__(self):
         return f"{self.name}"
-
+    
+# common for student visa PR visa
 class tbl_education_qualification(models.Model):
-    inquiry_id = models.CharField(max_length=100)
-    qualification = models.CharField(max_length=100)
-    stream_of_degree = models.CharField(max_length=100)
-    major_degree = models.CharField(max_length=100)
-    year_of_completion = models.CharField(max_length=100)
-    percentage = models.CharField(max_length=100)
-    total_backlog = models.CharField(max_length=100)
+    inquiry_id = models.CharField(max_length=100, null=True , blank=True)
+    qualification = models.CharField(max_length=100, null=True , blank=True)
+    stream_of_degree = models.CharField(max_length=100, null=True , blank=True)
+    major_degree = models.CharField(max_length=100, null=True , blank=True)
+    year_of_completion = models.CharField(max_length=100, null=True , blank=True)
+    percentage = models.CharField(max_length=100, null=True , blank=True)
+    total_backlog = models.CharField(max_length=100, null=True , blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -461,13 +434,14 @@ class tbl_education_qualification(models.Model):
     def __str__(self):
         return f"{self.inquiry_id}"
 
-class tbl_employeement_detail(models.Model):
-    inquiry_id = models.CharField(max_length=100)
-    company = models.CharField(max_length=100)
-    designation = models.CharField(max_length=100)
-    from_date = models.CharField(max_length=100)
-    to_date = models.CharField(max_length=100)
-    no_of_years = models.CharField(max_length=100)
+# common for student visa PR visa
+class tbl_employeement_detail(models.Model): 
+    inquiry_id = models.CharField(max_length=100, null=True , blank=True)
+    company = models.CharField(max_length=100, null=True , blank=True)
+    designation = models.CharField(max_length=100, null=True , blank=True)
+    from_date = models.CharField(max_length=100, null=True , blank=True)
+    to_date = models.CharField(max_length=100, null=True , blank=True)
+    no_of_years = models.CharField(max_length=100, null=True , blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -478,14 +452,15 @@ class tbl_employeement_detail(models.Model):
     def __str__(self):
         return f"{self.inquiry_id}"
 
+# common for student visa PR visa
 class tbl_exam_detail(models.Model):
-    inquiry_id = models.CharField(max_length=100)
-    exam = models.CharField(max_length=100)
-    listening = models.CharField(max_length=100)
-    reading = models.CharField(max_length=100)
-    writing = models.CharField(max_length=100)
-    speaking = models.CharField(max_length=100)
-    final_score = models.CharField(max_length=100)
+    inquiry_id = models.CharField(max_length=100, null=True , blank=True)
+    exam = models.CharField(max_length=100, null=True , blank=True)
+    listening = models.CharField(max_length=100, null=True , blank=True)
+    reading = models.CharField(max_length=100, null=True , blank=True)
+    writing = models.CharField(max_length=100, null=True , blank=True)
+    speaking = models.CharField(max_length=100, null=True , blank=True)
+    final_score = models.CharField(max_length=100, null=True , blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -496,13 +471,14 @@ class tbl_exam_detail(models.Model):
     def __str__(self):
         return f"{self.inquiry_id}"
 
+# common for student visa PR visa
 class tbl_test_detail(models.Model):
-    inquiry_id = models.CharField(max_length=100)
-    exam = models.CharField(max_length=100)
-    verbal_reasoning = models.CharField(max_length=100)
-    quantitative_reasoning = models.CharField(max_length=100)
-    analytical_writing = models.CharField(max_length=100)
-    final_score = models.CharField(max_length=100)
+    inquiry_id = models.CharField(max_length=100, null=True , blank=True)
+    exam = models.CharField(max_length=100, null=True , blank=True)
+    verbal_reasoning = models.CharField(max_length=100, null=True , blank=True)
+    quantitative_reasoning = models.CharField(max_length=100, null=True , blank=True)
+    analytical_writing = models.CharField(max_length=100, null=True , blank=True)
+    final_score = models.CharField(max_length=100, null=True , blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -512,3 +488,71 @@ class tbl_test_detail(models.Model):
 
     def __str__(self):
         return f"{self.inquiry_id}"
+
+# student visa inquery
+class tbl_student_visa_inquiry(models.Model):
+    relation = models.CharField(max_length=50, blank=True, null=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    father_name = models.CharField(max_length=100, blank=True, null=True)
+    contact_number = models.CharField(max_length=15, blank=True, null=True)
+    landline_number = models.CharField(max_length=15, blank=True, null=True)
+    alternate_number = models.CharField(max_length=15, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+    desired_country = models.CharField(max_length=50, blank=True, null=True)
+    spouse_dependent_visa = models.CharField(max_length=50, blank=True, null=True)
+
+    flat_no = models.CharField(max_length=50, blank=True, null=True)
+    building_name = models.CharField(max_length=50, blank=True, null=True)
+    road_street = models.CharField(max_length=50, blank=True, null=True)
+    pincode = models.CharField(max_length=50, blank=True, null=True)
+    area = models.CharField(max_length=50, blank=True, null=True)
+    city = models.CharField(max_length=50, blank=True, null=True)
+    
+    field_of_study = models.CharField(max_length=100, blank=True, null=True)
+    level_of_study = models.CharField(max_length=100, blank=True, null=True)
+    
+    inquiry_id = models.CharField(max_length=100, null=True , blank=True)
+    resume = models.FileField(upload_to='resumes/', null=True , blank=True)
+
+    # education_qualification = models.CharField(max_length=100)
+    # employeement_detail = models.CharField(max_length=100)
+    # internal_exams = models.CharField(max_length=100)
+    # admission_test = models.CharField(max_length=100)
+    # intended_study = models.CharField(max_length=100)
+  
+    is_valid_passport = models.CharField(max_length=100, blank=True, null=True)
+    citizenship = models.CharField(max_length=100, blank=True, null=True)
+    passport_no = models.CharField(max_length=100, blank=True, null=True)
+    father_occupation = models.CharField(max_length=100, blank=True, null=True)
+    family_income = models.CharField(max_length=100, blank=True, null=True)
+    blood_relative_foreign = models.CharField(max_length=100, blank=True, null=True)
+    countries_names = models.CharField(max_length=100, blank=True, null=True)
+    how_about_us = models.CharField(max_length=100, blank=True, null=True)
+    additional_query = models.TextField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'tbl_student_visa_inquiry'
+
+    def __str__(self):
+        return f"{self.name}"
+
+# for only student visa 
+class tbl_intended_study(models.Model):
+    inquiry_id = models.CharField(max_length=100, null=True , blank=True)
+    month = models.CharField(max_length=100, null=True , blank=True)
+    year = models.CharField(max_length=100, null=True , blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'tbl_intended_study'
+
+    def __str__(self):
+        return f"{self.inquiry_id}"
+
+ 

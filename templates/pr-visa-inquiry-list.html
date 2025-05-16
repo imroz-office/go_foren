@@ -2,6 +2,8 @@
 {% load static %}
 {%  block start %}
 
+
+
 <style>
     a {
     color: #00cc99;
@@ -16,20 +18,18 @@
 
 
 </style>
-
-
 			<!-- CONTENT WRAPPER -->
 			<div class="ec-content-wrapper">
 				<div class="content">
 					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
 						<div>
-							<h1>About Founder Content</h1>
-    							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
-								<span><i class="mdi mdi-chevron-right"></i></span>About Founder Content</p>
+							<h1>Visa Inquiry List</h1>
+							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+								<span><i class="mdi mdi-chevron-right"></i></span>Visa Inquiry List</p>
 						</div>
-						<div>          
-							<a href="{% url 'add_about_founder' %}" class="btn btn-primary">Add</a>
-						</div>
+						<!--<div>          -->
+						<!--	<a href="#" class="btn btn-primary">Visa Inquiry List</a>-->
+						<!--</div>-->
 					</div>
 					<div class="row">
 						<div class="col-12">
@@ -40,38 +40,23 @@
 											<thead>
 												<tr>
 													<th>S. No.</th>
-													<th>Serial</th>
-													<th>About Founder Heading</th>
-													<th>About Founder Description</th>
-                                                    <th>Image</th>
+													<th>name</th>
+													<th>Mobile NO</th>
+													<th>Email</th>
+													<th>Date</th>
                                                     <th>Action</th>
+                                                    <!--<th>Image</th>-->
 												</tr>
 											</thead>
 
 											<tbody>
-                                                {% for i in my_range%}
+                                                {% for i in all_inq %}
 												<tr>
 													<td>{{forloop.counter}}</td>
-													<td>{{forloop.counter}}</td>
-													<td>{{i}}{{i.ofc_godown_name}}</td>
-													<td>{{i}}{{i.o_g_mobile}}</td>
-													<!--<td>{{i.o_g_city}}</td>-->
-													
-													<td>
-                                                        <a href="/sit_vastra/{{i.o_g_pic.url}}" target="_blank"> 
-                                                            <!--<img src="/sit_vastra/{{i.o_g_pic.url}}" width="100" style="height: 100px;">-->
-                                                            	<img style="height:40px" class="ec-about_founder-preview"
-																		src="https://sitsoftwares.co.in/go_foren/media/other/default/default.jpeg"
-																		alt="edit" />
-                                                        </a><br>
-                                                        <!--{% if i.o_g_pic %}-->
-                                                        <!--{% else %}-->
-                                                        <!--    No about_founder Upload-->
-                                                        <!--{% endif %}-->
-													
-                                                    </td>
-														
-													
+													<td>{{i.name}}</td>
+													<td>{{i.number}}</td>
+													<td>{{i.email}}</td>
+													<td>{{i.created_at}}</td>
 													<td>
 														<div class="btn-group mb-1">
 															<button type="button"
@@ -85,10 +70,8 @@
 
 															<div class="dropdown-menu">	
 																
-                                                                <a class="dropdown-item" href="{% url 'edit_about_founder' 2 %}">Edit</a>
-                                                                <!-- <a class="dropdown-item" href="/sit_vastra/edit_invoice_page/{{ item.id }}">Edit</a> -->
-																
-                                                                <a href="javascript:void(0);" class="dropdown-item delete-btn" data-url="{% url 'delete_about_founder' 2 %}">Delete</a>
+                                                                <a class="dropdown-item" href="{% url 'pr_visa_inquiry_detail' i.id %}">View</a>
+                                                                <a href="javascript:void(0);" class="dropdown-item delete-btn" data-url="{% url 'delete_pr_visa_inquiry' i.id %}">Delete</a>
 															</div>
 															</div>
 																				
@@ -99,8 +82,7 @@
                                                 {% endfor %}
 											</tbody>
 										</table>
-										
-											<div class="pagination justify-content-center mt-3" style="justify-content: left !important;">
+										<div class="pagination justify-content-center mt-3" style="justify-content: left !important;">
     <nav>
         <ul class="pagination">
             {% if page_obj.has_previous %}
@@ -148,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: "This will permanently delete the office!",
+                text: "This will permanently delete this Inquiry!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -161,6 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     });
+    
+  
 });
 </script>
 

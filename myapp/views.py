@@ -7,6 +7,8 @@ from django.core.paginator import Paginator
 from .models import *
 from django.http import JsonResponse
 from .serializers import *
+import uuid
+import json
 
 # ============================================================ Decorator & Utility Function ============================================================
  
@@ -1423,19 +1425,6 @@ def delete_inquiry(request, id):
 
 # --- PR Visa Inquiry POST --- 
 
-
-import uuid
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from .models import (
-    tbl_pr_visa_inquiry,
-    tbl_education_qualification,
-    tbl_employeement_detail,
-    tbl_exam_detail,
-    tbl_test_detail
-)
-
 @api_view(['POST'])
 def submit_pr_visa_inquiry(request):
     try:
@@ -1466,8 +1455,8 @@ def submit_pr_visa_inquiry(request):
                 resume=request.FILES.get("resume")
             )
 
-            # Save education details
-            education_data = request.data.get("education_qualifications", [])
+            # Parse and save education details
+            education_data = json.loads(request.data.get("education_qualifications", "[]"))
             for edu in education_data:
                 tbl_education_qualification.objects.create(
                     inquiry_id=inquiry_id,
@@ -1479,8 +1468,8 @@ def submit_pr_visa_inquiry(request):
                     total_backlog=edu.get("total_backlog"),
                 )
 
-            # Save employment details
-            employment_data = request.data.get("employeement_details", [])
+            # Parse and save employment details
+            employment_data = json.loads(request.data.get("employeement_details", "[]"))
             for emp in employment_data:
                 tbl_employeement_detail.objects.create(
                     inquiry_id=inquiry_id,
@@ -1491,8 +1480,8 @@ def submit_pr_visa_inquiry(request):
                     no_of_years=emp.get("no_of_years"),
                 )
 
-            # Save exam details
-            exam_data = request.data.get("exam_details", [])
+            # Parse and save exam details
+            exam_data = json.loads(request.data.get("exam_details", "[]"))
             for ex in exam_data:
                 tbl_exam_detail.objects.create(
                     inquiry_id=inquiry_id,
@@ -1504,8 +1493,8 @@ def submit_pr_visa_inquiry(request):
                     final_score=ex.get("final_score"),
                 )
 
-            # Save test details
-            test_data = request.data.get("test_details", [])
+            # Parse and save test details
+            test_data = json.loads(request.data.get("test_details", "[]"))
             for test in test_data:
                 tbl_test_detail.objects.create(
                     inquiry_id=inquiry_id,
@@ -1516,66 +1505,181 @@ def submit_pr_visa_inquiry(request):
                     final_score=test.get("final_score"),
                 )
 
-            return Response({"success": f"Inquiry for '{pr_visa.name}' submitted successfully!", "inquiry_id": inquiry_id}, status=status.HTTP_201_CREATED)
+            return Response({
+                "success": f"Inquiry for '{pr_visa.name}' submitted successfully!",
+                "inquiry_id": inquiry_id
+            }, status=status.HTTP_201_CREATED)
+
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@login_required_custom
+def pr_visa_inquiry_view(request):
+    all_inq_queryset = tbl_pr_visa_inquiry.objects.all().order_by("-id")
+    
+    paginator = Paginator(all_inq_queryset, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        "all_inq": page_obj.object_list,
+        "page_obj": page_obj,
+    }
+    return render(request, "pr-visa-inquiry-list.html", context)
 
-# @api_view(['POST'])
-# def pr_visa_inquiry(request):
-#     try:
-#         if request.method == 'POST': 
-#             desired_country = request.data.get("desired_country")
-#             desired_visa_route = request.data.get("desired_visa_route")
-#             relation = request.data.get("relation")
-#             name = request.data.get("name")
-#             number = request.data.get("number")
-#             landline = request.data.get("landline")
-#             alt_number = request.data.get("alt_number")
-#             email = request.data.get("email")
-#             dob = request.data.get("dob")
-#             marital_status = request.data.get("marital_status")
-#             no_of_child = request.data.get("no_of_child")
-#             flat_no = request.data.get("flat_no")
-#             building_name = request.data.get("building_name")
-#             road_street = request.data.get("road_street")
-#             pincode = request.data.get("pincode")
-#             area = request.data.get("area")
-#             city = request.data.get("city")
-#             # education_qualification = request.data.get("education_qualification")
-#             # employeement_detail = request.data.get("employeement_detail")
-#             # internal_exams = request.data.get("internal_exams")
-#             # admission_test = request.data.get("admission_test")
-#             resume = request.data.get("resume")
-            
-#             new = tbl_pr_visa_inquiry.objects.create(
-#                 desired_country= desired_country,
-#                 desired_visa_route= desired_visa_route,
-#                 relation= relation,
-#                 name= name,
-#                 number= number,
-#                 landline= landline,
-#                 alt_number= alt_number,
-#                 email= email,
-#                 dob= dob,
-#                 marital_status= marital_status,
-#                 no_of_child= no_of_child,
-#                 flat_no= flat_no,
-#                 building_name= building_name,
-#                 road_street= road_street,
-#                 pincode= pincode,
-#                 area= area,
-#                 city= city,
-#                 # education_qualification= education_qualification,
-#                 # employeement_detail= employeement_detail,
-#                 # internal_exams= internal_exams,
-#                 # admission_test= admission_test,
-#                 resume= resume,
-#                 )
-#             new.save()
-#             return Response({"success": f"Data '{name}' added successfully!"}, status=status.HTTP_201_CREATED)
-#     except Exception as e:
-#         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@login_required_custom
+def pr_visa_inquiry_detail(request, id):
+    inq = get_object_or_404(tbl_pr_visa_inquiry, id=id)
+    context = {
+        "inq": inq,
+    }
+    return render(request, "pr-visa-inquiry-detail.html", context)
+
+
+@login_required_custom
+def delete_pr_visa_inquiry(request, id):
+    inq = get_object_or_404(tbl_pr_visa_inquiry, id=id)
+    inq.delete()
+    return redirect('pr_visa_inquiry_view')
+
+# --- PR Visa Inquiry POST --- 
+
+@api_view(['POST'])
+def submit_student_visa_inquiry(request):
+    try:
+        if request.method == 'POST':
+            inquiry_id = str(uuid.uuid4())
+
+            # Save the main student visa inquiry
+            student_inquiry = tbl_student_visa_inquiry.objects.create(
+                relation=request.data.get("relation"),
+                name=request.data.get("name"),
+                father_name=request.data.get("father_name"),
+                contact_number=request.data.get("contact_number"),
+                landline_number=request.data.get("landline_number", ""),
+                alternate_number=request.data.get("alternate_number", ""),
+                email=request.data.get("email"),
+                date_of_birth=request.data.get("date_of_birth"),
+                desired_country=request.data.get("desired_country"),
+                spouse_dependent_visa=request.data.get("spouse_dependent_visa", ""),
+                flat_no=request.data.get("flat_no", ""),
+                building_name=request.data.get("building_name", ""),
+                road_street=request.data.get("road_street", ""),
+                pincode=request.data.get("pincode", ""),
+                area=request.data.get("area", ""),
+                city=request.data.get("city", ""),
+                field_of_study=request.data.get("field_of_study", ""),
+                level_of_study=request.data.get("level_of_study", ""),
+                inquiry_id=inquiry_id,
+                resume=request.FILES.get("resume"),
+                is_valid_passport=request.data.get("is_valid_passport", ""),
+                citizenship=request.data.get("citizenship", ""),
+                passport_no=request.data.get("passport_no", ""),
+                father_occupation=request.data.get("father_occupation", ""),
+                family_income=request.data.get("family_income", ""),
+                blood_relative_foreign=request.data.get("blood_relative_foreign", ""),
+                countries_names=request.data.get("countries_names", ""),
+                how_about_us=request.data.get("how_about_us", ""),
+                additional_query=request.data.get("additional_query", "")
+            )
+
+            # Save education details
+            education_data = json.loads(request.data.get("education_qualifications", "[]"))
+            for edu in education_data:
+                tbl_education_qualification.objects.create(
+                    inquiry_id=inquiry_id,
+                    qualification=edu.get("qualification"),
+                    stream_of_degree=edu.get("stream_of_degree"),
+                    major_degree=edu.get("major_degree"),
+                    year_of_completion=edu.get("year_of_completion"),
+                    percentage=edu.get("percentage"),
+                    total_backlog=edu.get("total_backlog")
+                )
+
+            # Save employment details
+            employment_data = json.loads(request.data.get("employeement_details", "[]"))
+            for emp in employment_data:
+                tbl_employeement_detail.objects.create(
+                    inquiry_id=inquiry_id,
+                    company=emp.get("company"),
+                    designation=emp.get("designation"),
+                    from_date=emp.get("from_date"),
+                    to_date=emp.get("to_date"),
+                    no_of_years=emp.get("no_of_years")
+                )
+
+            # Save exam details
+            exam_data = json.loads(request.data.get("exam_details", "[]"))
+            for ex in exam_data:
+                tbl_exam_detail.objects.create(
+                    inquiry_id=inquiry_id,
+                    exam=ex.get("exam"),
+                    listening=ex.get("listening"),
+                    reading=ex.get("reading"),
+                    writing=ex.get("writing"),
+                    speaking=ex.get("speaking"),
+                    final_score=ex.get("final_score")
+                )
+
+            # Save test details
+            test_data = json.loads(request.data.get("test_details", "[]"))
+            for test in test_data:
+                tbl_test_detail.objects.create(
+                    inquiry_id=inquiry_id,
+                    exam=test.get("exam"),
+                    verbal_reasoning=test.get("verbal_reasoning"),
+                    quantitative_reasoning=test.get("quantitative_reasoning"),
+                    analytical_writing=test.get("analytical_writing"),
+                    final_score=test.get("final_score")
+                )
+
+            # Save intended study details
+            intended_study_data = json.loads(request.data.get("intended_study", "[]"))
+            for study in intended_study_data:
+                tbl_intended_study.objects.create(
+                    inquiry_id=inquiry_id,
+                    month=study.get("month"),
+                    year=study.get("year")
+                )
+
+            return Response({
+                "success": f"Inquiry for '{student_inquiry.name}' submitted successfully!",
+                "inquiry_id": inquiry_id
+            }, status=status.HTTP_201_CREATED)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@login_required_custom
+def student_visa_inquiry_view(request):
+    all_inq_queryset = tbl_student_visa_inquiry.objects.all().order_by("-id")
+    
+    paginator = Paginator(all_inq_queryset, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        "all_inq": page_obj.object_list,
+        "page_obj": page_obj,
+    }
+    return render(request, "student-visa-inquiry-list.html", context)
+
+
+@login_required_custom
+def student_visa_inquiry_detail(request, id):
+    inq = get_object_or_404(tbl_student_visa_inquiry, id=id)
+    context = {
+        "inq": inq,
+    }
+    return render(request, "student-visa-inquiry-detail.html", context)
+
+
+@login_required_custom
+def delete_student_visa_inquiry(request, id):
+    inq = get_object_or_404(tbl_student_visa_inquiry, id=id)
+    inq.delete()
+    return redirect('student_visa_inquiry_view')
 
 # ============================================= [GET type API] =============================================
 
