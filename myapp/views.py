@@ -1876,3 +1876,30 @@ def get_visa_service_detail(request, id):
     serializer = VisaServiceSerializer(visa)
     return Response(serializer.data)
 
+@api_view(['POST'])
+def submit_blog_comment(request):
+    """Handle blog comment submissions via POST."""
+    try:
+        if request.method == 'POST':
+            blog_id = request.data.get("blog_id")
+            name = request.data.get("name")
+            email = request.data.get("email")
+            description = request.data.get("description")
+            
+            if not blog_id:
+                return Response({"error": "blog_id is required."}, status=status.HTTP_400_BAD_REQUEST)
+            
+            new_comment = tbl_blog_comment.objects.create(
+                blog_id=blog_id,
+                name=name,
+                email=email,
+                description=description,
+            )
+            new_comment.save()
+            
+            return Response(
+                {"success": f"Comment by '{name}' added successfully!"}, 
+                status=status.HTTP_201_CREATED
+            )
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

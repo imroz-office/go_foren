@@ -143,12 +143,19 @@ urlpatterns = [
 
     # submit student visa inquiry
     path('submit_student_visa_inquiry/', views.submit_student_visa_inquiry, name='submit_student_visa_inquiry'),
+    path('submit_blog_comment/', views.submit_blog_comment, name='submit_blog_comment'),
 
     # Student Visa Inquiry URLs
     path('student_visa_inquiry_view/', views.student_visa_inquiry_view, name='student_visa_inquiry_view'),
     path('student_visa_inquiry_detail/<int:id>/', views.student_visa_inquiry_detail, name='student_visa_inquiry_detail'),
     path('delete_student_visa_inquiry/<int:id>/', views.delete_student_visa_inquiry, name='delete_student_visa_inquiry'),
 
+    # submit Blog Comment
+    path('submit_blog_comment/', views.submit_blog_comment, name='submit_blog_comment'),
+
+    # Student Visa Inquiry URLs
+    
+    
     # ======================= [GET type API] =======================
     path('get_course_data/', views.get_course_data, name='get_course_data'),
     path('get_gallery_data/', views.get_gallery_data, name='get_gallery_data'),
