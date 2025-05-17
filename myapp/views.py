@@ -1209,62 +1209,32 @@ def delete_blog(request, id):
 # comments
 
 @login_required_custom
-def add_comments(request):
-    # if request.method == "POST":
-        # image = request.POST.get("image")
-        # description = request.POST.get("description")
-        
-        # tbl_gallery.objects.create(
-        #     image = image,
-        #     description = description,
-        #     image = image_name,
-        #     )
-        # request.session["add_success"] = True
-        # return redirect(image_list)
-    return render(request, "comment-form.html")
-
-@login_required_custom
-def comments_list(request):
-    # image = tbl_gallery.objects.all().order_by("image")
-    # add_success = request.session.pop("add_success", None)
-    # update_success = request.session.pop("update_success", None)
-    # delete_success = request.session.pop("delete_success", None)
+def comment_list_view(request):
+    all_comments = tbl_blog_comment.objects.all().order_by("-id")
+    
+    paginator = Paginator(all_comments, 10)  # Show 10 comments per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     
     context = {
-        # "add_success": add_success,
-        # "update_success": update_success,
-        # "delete_success": delete_success,    
-        # "record_name": "image",    
-        # "image":image,
-        "my_range": range(1,11)
+        "all_comments": page_obj.object_list,
+        "page_obj": page_obj,
     }
     return render(request, "comment-list.html", context)
 
 @login_required_custom
-def edit_comments(request, id):
-    # image = get_object_or_404(tbl_gallery, id=id)
-    
-    # if request.method == "POST":
-    #     image = request.POST.get("image")
-    #     description = request.POST.get("description")
-    #     image.image_name = image_name_
-    #     image.description = description
-    #     image.save()
-    #     request.session["update_success"] = True
-    #     return redirect('image_list')  # Make sure 'image_list' is a valid URL name
-
+def comment_detail_view(request, id):
+    comment = get_object_or_404(tbl_blog_comment, id=id)
     context = {
-    #     "image": image,
-        "is_edit": True,
+        "comment": comment,
     }
-    return render(request, "comment-form.html", context)
-    
+    return render(request, "comment-detail.html", context)
+
 @login_required_custom
-def delete_comments(request, id):
-    # image = get_object_or_404(tbl_gallery, id=id)
-    # image.delete()
-    # request.session["delete_success"] = True
-    return redirect('comments_list')  # Again, ensure 'image_list' is the correct URL name
+def delete_comment_view(request, id):
+    comment = get_object_or_404(tbl_blog_comment, id=id)
+    comment.delete()
+    return redirect('comment_list_view')
 
 # ============================================================ About Us ============================================================
 
@@ -1783,6 +1753,13 @@ def get_faq_data(request):
     serializer = FaqSerializer(faq_items, many=True)
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+def get_blog_comments(request, blog_id):
+    comments = tbl_blog_comment.objects.filter(blog_id=blog_id).order_by('-created_at')
+    serializer = BlogCommentSerializer(comments, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 # ============================================= [GET type (Detail) API] =============================================
 
 @api_view(['GET'])
@@ -1903,3 +1880,116 @@ def submit_blog_comment(request):
             )
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+
+# ======================================
+
+
+@api_view(['POST'])
+def submit_cv(request):
+    """Handle CV submissions via POST."""
+    try:
+        if request.method == 'POST':
+            name = request.data.get("name")
+            number = request.data.get("number")
+            gender = request.data.get("gender")
+            desired_visa_service = request.data.get("desired_visa_service")
+            resume = request.FILES.get("resume")
+            captcha_entered = request.data.get("captcha_entered")
+            
+            if not all([name, number, gender, resume, captcha_entered]):
+                return Response({"error": "Missing required fields."}, status=status.HTTP_400_BAD_REQUEST)
+            
+            new_cv = tbl_cv.objects.create(
+                name=name,
+                number=number,
+                gender=gender,
+                desired_visa_service=desired_visa_service,
+                resume=resume,
+                captcha_entered=captcha_entered
+            )
+            new_cv.save()
+            return Response({"success": f"CV for '{name}' submitted successfully!"}, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@login_required_custom
+def cv_list_view(request):
+    all_cv_queryset = tbl_cv.objects.all().order_by("-id")
+    
+    paginator = Paginator(all_cv_queryset, 10)  # Show 10 CVs per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        "all_cv": page_obj.object_list,
+        "page_obj": page_obj,
+    }
+    return render(request, "cv-list.html", context)
+
+
+@login_required_custom
+def cv_detail_view(request, id):
+    cv = get_object_or_404(tbl_cv, id=id)
+    context = {
+        "inq": cv,
+    }
+    return render(request, "cv-detail.html", context)
+
+
+@login_required_custom
+def delete_cv_view(request, id):
+    cv = get_object_or_404(tbl_cv, id=id)
+    cv.delete()
+    return redirect('cv_list_view')
+
+@api_view(['POST'])
+def submit_newsletter(request):
+    """Handle newsletter submissions (only student visa)."""
+    try:
+        email = request.data.get("email")
+
+        if not email:
+            return Response({"error": "Email is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Save email to DB
+        tbl_newsletter.objects.create(email=email)
+
+        return Response({"success": f"Newsletter email '{email}' subscribed successfully."}, status=status.HTTP_201_CREATED)
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@login_required_custom
+def newsletter_view(request):
+    newsletter_qs = tbl_newsletter.objects.all().order_by('-id')
+
+    paginator = Paginator(newsletter_qs, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "all_newsletters": page_obj.object_list,
+        "page_obj": page_obj,
+    }
+    return render(request, "newsletter-list.html", context)
+
+@login_required_custom
+def newsletter_detail(request, id):
+    record = get_object_or_404(tbl_newsletter, id=id)
+    context = {
+        "record": record,
+    }
+    return render(request, "newsletter-detail.html", context)
+
+@login_required_custom
+def delete_newsletter(request, id):
+    record = get_object_or_404(tbl_newsletter, id=id)
+    record.delete()
+    return redirect('newsletter_view')
+
+

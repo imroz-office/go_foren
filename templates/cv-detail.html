@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+{% block start %}
+
+<style>
+    a {
+        color: #00cc99;
+        word-wrap: break-word;
+    }
+    .btn.btn-primary {
+        color: #fff;
+        background-color: #00cc99;
+        border-color: #00cc99;
+    }
+    table {
+        width: 100% !important;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        table-layout: auto;  /* allow cells to expand */
+        word-wrap: break-word;
+        word-break: break-word;
+    }
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        vertical-align: top;
+        white-space: normal !important;  /* allow multi-line */
+    }
+    th {
+        background-color: #00cc99;
+        color: white;
+        white-space: nowrap; /* keep header text on one line */
+    }
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    /* Container padding */
+    .ec-content-wrapper {
+        padding: 20px 30px;
+    }
+    /* ... your existing styles ... */
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #00cc99 !important; /* make header green */
+        color: white !important;              /* white text */
+        white-space: nowrap;
+        padding: 12px 15px;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+</style>
+
+<div class="ec-content-wrapper">
+    <div class="content">
+        <div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+            <div>
+                <h1>CV Details of {{ inq.name }}</h1>
+                <p class="breadcrumbs">
+                    <span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+                    <span><i class="mdi mdi-chevron-right"></i></span>CV Details
+                </p>
+            </div>
+            <!-- Uncomment if you want a button
+            <div>
+                <a href="#" class="btn btn-primary">CV Details</a>
+            </div>
+            -->
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="responsive-data-table" class="table">
+                                <thead>
+                                    <tr style="color:black;">
+                                        <th>Content</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><th>ID</th><td>{{ inq.id }}</td></tr>
+                                    <tr><th>Name</th><td>{{ inq.name }}</td></tr>
+                                    <tr><th>Mobile NO</th><td>{{ inq.number }}</td></tr>
+                                    <tr><th>Gender</th><td>{{ inq.gender }}</td></tr>
+                                    <tr><th>Date & Time</th><td>{{ inq.created_at }}</td></tr>
+                                    <tr><th>Desired Visa Service</th><td>{{ inq.desired_visa_service }}</td></tr>
+                                    <tr>
+                                        <th>Resume</th>
+                                        <td>
+                                            {% if inq.resume %}
+                                                <a href="/go_foren/{{ inq.resume.url }}" target="_blank">View Resume (PDF)</a>
+                                            {% else %}
+                                                No resume uploaded.
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- table-responsive -->
+                    </div> <!-- card-body -->
+                </div> <!-- card -->
+            </div> <!-- col -->
+        </div> <!-- row -->
+    </div> <!-- content -->
+</div> <!-- ec-content-wrapper -->
+
+{% endblock %}

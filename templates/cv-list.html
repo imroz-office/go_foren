@@ -3,6 +3,7 @@
 {%  block start %}
 
 
+
 <style>
     a {
     color: #00cc99;
@@ -16,24 +17,15 @@
 }
 
 
-.btn.btn-primary:hover, .btn.btn-outline-primary:hover {
-    color: #ffffff;
-    background-color: #00a37b;
-    border-color: #00a37b;
-}
 </style>
-
 			<!-- CONTENT WRAPPER -->
 			<div class="ec-content-wrapper">
 				<div class="content">
 					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
 						<div>
-							<h1>Team List</h1>
-    							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
-								<span><i class="mdi mdi-chevron-right"></i></span>Team List</p>
-						</div>
-						<div>          
-							<a href="{% url 'add_team' %}" class="btn btn-primary">Add</a>
+							<h1>Uploaded CV List</h1>
+							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+								<span><i class="mdi mdi-chevron-right"></i></span>Uploaded CV List</p>
 						</div>
 					</div>
 					<div class="row">
@@ -45,20 +37,20 @@
 											<thead>
 												<tr>
 													<th>S. No.</th>
-													<th>Name</th>
-													<th>Designation</th>
-                                                    <th>Image</th>
+													<th>name</th>
+													<th>Mobile NO</th>
+													<th>Date</th>
                                                     <th>Action</th>
 												</tr>
 											</thead>
 
 											<tbody>
-                                                {% for i in data%}
+                                                {% for i in all_cv %}
 												<tr>
 													<td>{{forloop.counter}}</td>
 													<td>{{i.name}}</td>
-													<td>{{i.designation}}</td>
-													<td><a target="_blank" href="{{i.image_url}}"><img src="https://drive.google.com/thumbnail?id={{i.image_id}}" style="height:40px"/></a></td>
+													<td>{{i.number}}</td>
+													<td>{{i.created_at}}</td>
 													<td>
 														<div class="btn-group mb-1">
 															<button type="button"
@@ -72,9 +64,8 @@
 
 															<div class="dropdown-menu">	
 																
-                                                                <a class="dropdown-item" href="{% url 'team_view' i.id %}">View</a>
-                                                                <a class="dropdown-item" href="{% url 'edit_team' i.id %}">Edit</a>
-                                                                <a href="javascript:void(0);" class="dropdown-item delete-btn" data-url="{% url 'delete_team' i.id %}">Delete</a>
+                                                                <a class="dropdown-item" href="{% url 'cv_detail_view' i.id %}">View</a>
+                                                                <a href="javascript:void(0);" class="dropdown-item delete-btn" data-url="{% url 'delete_cv_view' i.id %}">Delete</a>
 															</div>
 															</div>
 																				
@@ -85,8 +76,7 @@
                                                 {% endfor %}
 											</tbody>
 										</table>
-										
-											<div class="pagination justify-content-center mt-3" style="justify-content: left !important;">
+										<div class="pagination justify-content-center mt-3" style="justify-content: left !important;">
     <nav>
         <ul class="pagination">
             {% if page_obj.has_previous %}
@@ -134,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: "This will permanently delete this record!",
+                text: "This will permanently delete the CV Details!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -148,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
     
-   
+ 
 });
 </script>
 

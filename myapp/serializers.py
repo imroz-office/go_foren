@@ -77,7 +77,6 @@ class FaqSerializer(serializers.ModelSerializer):
         model = tbl_faq
         fields = '__all__'
 
-
 class BlogCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = tbl_blog_comment

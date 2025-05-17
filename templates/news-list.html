@@ -148,16 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
     
-    // Show success alerts
-    {% if add_success %}
-    Swal.fire({ icon: 'success', title: 'Created', text: 'Data created successfully!' });
-    {% endif %}
-    {% if update_success %}
-    Swal.fire({ icon: 'success', title: 'Updated', text: 'Data updated successfully!' });
-    {% endif %}
-    {% if delete_success %}
-    Swal.fire({ icon: 'success', title: 'Deleted', text: 'Data deleted successfully!' });
-    {% endif %}
+  
 });
 </script>
 

@@ -2,7 +2,6 @@
 {% load static %}
 {%  block start %}
 
-
 <style>
     a {
     color: #00cc99;
@@ -16,11 +15,13 @@
 }
 
 
+
 .btn.btn-primary:hover, .btn.btn-outline-primary:hover {
     color: #ffffff;
     background-color: #00a37b;
     border-color: #00a37b;
 }
+
 </style>
 
 			<!-- CONTENT WRAPPER -->
@@ -28,13 +29,11 @@
 				<div class="content">
 					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
 						<div>
-							<h1>Team List</h1>
+							<h1>Newsletter Subscription List</h1>
     							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
-								<span><i class="mdi mdi-chevron-right"></i></span>Team List</p>
+								<span><i class="mdi mdi-chevron-right"></i></span>Newsletter Subscription List </p>
 						</div>
-						<div>          
-							<a href="{% url 'add_team' %}" class="btn btn-primary">Add</a>
-						</div>
+						
 					</div>
 					<div class="row">
 						<div class="col-12">
@@ -45,20 +44,17 @@
 											<thead>
 												<tr>
 													<th>S. No.</th>
-													<th>Name</th>
-													<th>Designation</th>
-                                                    <th>Image</th>
+													<th>Subscribed Email</th>
                                                     <th>Action</th>
 												</tr>
 											</thead>
 
 											<tbody>
-                                                {% for i in data%}
+                                                {% for i in all_newsletters%}
 												<tr>
 													<td>{{forloop.counter}}</td>
-													<td>{{i.name}}</td>
-													<td>{{i.designation}}</td>
-													<td><a target="_blank" href="{{i.image_url}}"><img src="https://drive.google.com/thumbnail?id={{i.image_id}}" style="height:40px"/></a></td>
+													<td>{{i.email}}</td>
+													
 													<td>
 														<div class="btn-group mb-1">
 															<button type="button"
@@ -71,10 +67,8 @@
 															</button>
 
 															<div class="dropdown-menu">	
-																
-                                                                <a class="dropdown-item" href="{% url 'team_view' i.id %}">View</a>
-                                                                <a class="dropdown-item" href="{% url 'edit_team' i.id %}">Edit</a>
-                                                                <a href="javascript:void(0);" class="dropdown-item delete-btn" data-url="{% url 'delete_team' i.id %}">Delete</a>
+                                                                <a class="dropdown-item" href="{% url 'newsletter_detail' i.id %}">View</a>
+                                                                <a href="javascript:void(0);" class="dropdown-item delete-btn" data-url="{% url 'delete_newsletter' i.id %}">Delete</a>
 															</div>
 															</div>
 																				
@@ -134,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: "This will permanently delete this record!",
+                text: "This will permanently delete the office!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -148,6 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
     
+    // Show success alerts
    
 });
 </script>

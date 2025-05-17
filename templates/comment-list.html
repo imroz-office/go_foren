@@ -2,18 +2,37 @@
 {% load static %}
 {%  block start %}
 
+<style>
+    a {
+    color: #00cc99;
+    
+}
+
+.btn.btn-primary { 
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+
+
+.btn.btn-primary:hover, .btn.btn-outline-primary:hover {
+    color: #ffffff;
+    background-color: #00a37b;
+    border-color: #00a37b;
+}
+
+</style>
+
+
 			<!-- CONTENT WRAPPER -->
 			<div class="ec-content-wrapper">
 				<div class="content">
 					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
 						<div>
-							<h1>Comment List</h1>
+							<h1>Blog Comment</h1>
     							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
-								<span><i class="mdi mdi-chevron-right"></i></span>Comment List</p>
+								<span><i class="mdi mdi-chevron-right"></i></span>Blog Comment</p>
 						</div>
-						<!--<div>          -->
-						<!--	<a href="{% url 'add_blog' %}" class="btn btn-primary">Add</a>-->
-						<!--</div>-->
 					</div>
 					<div class="row">
 						<div class="col-12">
@@ -24,69 +43,44 @@
 											<thead>
 												<tr>
 													<th>S. No.</th>
-													<th>Blog id</th>
-													<th>Name</th>
-													<th>email</th>
+													<th>Blog ID</th>
 													<th>Comment</th>
-                                                    <th>Date</th>
-                                                    <!--<th>Action</th>-->
+                                                    <th>Action</th>
 												</tr>
 											</thead>
 
 											<tbody>
-                                                {% for i in my_range%}
+                                                {% for i in all_comments%}
 												<tr>
 													<td>{{forloop.counter}}</td>
-													<td>{{forloop.counter}}</td>
-													<td>{{forloop.counter}}</td>
-													<td>{{i}}{{i.ofc_godown_name}}</td>
-													<td>{{i}}{{i.o_g_mobile}}</td>
-													<td>{{i}}{{i.o_g_mobile}}</td>
-													<!--<td>{{i.o_g_city}}</td>-->
+													<td>{{i.blog_id}}</td>
+													<td>{{i.description}}</td>
 													
-													<!--<td>-->
-             <!--                                           <a href="/sit_vastra/{{i.o_g_pic.url}}" target="_blank"> -->
-                                                            <!--<img src="/sit_vastra/{{i.o_g_pic.url}}" width="100" style="height: 100px;">-->
-             <!--                                               	<img style="height:40px" class="ec-blog-preview"-->
-													<!--					src="https://sitsoftwares.co.in/go_foren/media/other/default/default.jpeg"-->
-													<!--					alt="edit" />-->
-             <!--                                           </a><br>-->
-                                                        <!--{% if i.o_g_pic %}-->
-                                                        <!--{% else %}-->
-                                                        <!--    No blog Upload-->
-                                                        <!--{% endif %}-->
-													
-             <!--                                       </td>-->
-														
-													
-													<!--<td>-->
-													<!--	<div class="btn-group mb-1">-->
-													<!--		<button type="button"-->
-													<!--			class="btn btn-outline-success">Action</button>-->
-													<!--		<button type="button"-->
-													<!--			class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"-->
-													<!--			data-bs-toggle="dropdown" aria-haspopup="true"-->
-													<!--			aria-expanded="false" data-display="static">-->
-													<!--			<span class="sr-only">Action</span> -->
-													<!--		</button>-->
+													<td>
+														<div class="btn-group mb-1">
+															<button type="button"
+																class="btn btn-outline-success">Action</button>
+															<button type="button"
+																class="btn btn-outline-success dropdown-toggle dropdown-toggle-split"
+																data-bs-toggle="dropdown" aria-haspopup="true"
+																aria-expanded="false" data-display="static">
+																<span class="sr-only">Action</span> 
+															</button>
 
-													<!--		<div class="dropdown-menu">	-->
-																
-             <!--                                                   <a class="dropdown-item" href="{% url 'edit_blog' 2 %}">Edit</a>-->
-                                                                <!-- <a class="dropdown-item" href="/sit_vastra/edit_invoice_page/{{ item.id }}">Edit</a> -->
-																
-             <!--                                                   <a href="javascript:void(0);" class="dropdown-item delete-btn" data-url="{% url 'delete_blog' 2 %}">Delete</a>-->
-													<!--		</div>-->
-													<!--		</div>-->
+															<div class="dropdown-menu">	
+                                                                <a class="dropdown-item" href="{% url 'comment_detail_view' i.id %}">View</a>
+                                                                <a href="javascript:void(0);" class="dropdown-item delete-btn" data-url="{% url 'delete_comment_view' i.id %}">Delete</a>
+															</div>
+															</div>
 																				
-													<!--		<div>-->
-													<!--	</div>-->
-													<!--</td>-->
+															<div>
+														</div>
+													</td>
 												</tr>
                                                 {% endfor %}
 											</tbody>
 										</table>
-										<div class="pagination justify-content-center mt-3" style="justify-content: left !important;">
+											<div class="pagination justify-content-center mt-3" style="justify-content: left !important;">
     <nav>
         <ul class="pagination">
             {% if page_obj.has_previous %}
@@ -134,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: "This will permanently delete the office!",
+                text: "This will permanently delete this Comment!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -148,16 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
     
-    // Show success alerts
-    {% if add_success %}
-    Swal.fire({ icon: 'success', title: 'Created', text: 'Data created successfully!' });
-    {% endif %}
-    {% if update_success %}
-    Swal.fire({ icon: 'success', title: 'Updated', text: 'Data updated successfully!' });
-    {% endif %}
-    {% if delete_success %}
-    Swal.fire({ icon: 'success', title: 'Deleted', text: 'Data deleted successfully!' });
-    {% endif %}
+ 
 });
 </script>
 

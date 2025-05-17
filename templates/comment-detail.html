@@ -21,9 +21,9 @@
 				<div class="content">
 					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
 						<div>
-							<h1>Video Details</h1>
+							<h1>Comment Details</h1>
 							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
-								<span><i class="mdi mdi-chevron-right"></i></span>Video Details</p>
+								<span><i class="mdi mdi-chevron-right"></i></span>Comment Details</p>
 						</div>
 						<!--<div>          -->
 						<!--	<a href="#" class="btn btn-primary">Visa Inquiry List</a>-->
@@ -42,35 +42,29 @@
 												</tr>
 												<tr>
 													<th>ID</th>
-													<td>{{data.id}}</td>
-												</tr>
-												
-												<tr>
-													<th>Video Name</th>
-													<td>{{data.video_name}}</td>
-												</tr>
-
-
-												<tr>
-                                                    <th>Video</th>
-                                                    <td>
-                                                        <iframe width="560" height="315" 
-                                                        src="{{ data.video_embed_url }}" 
-                                                        frameborder="0" allowfullscreen>
-                                                    </iframe>
-                                                </td>
-                                            </tr>
-                                            <!-- src="{{ data.video_drive_url }}"  -->
-	
-												<tr>
-													<th>Embed Video URL</th>
-													<td>{{data.row_video_url}}</td>
+													<td>{{comment.id}}</td>
 												</tr>
 												<tr>
-													<th>Row Video URL</th>
-													<td>{{data.video_embed_url}}</td>
+													<th>Blog ID</th>
+													<td>{{comment.blog_id}}</td>
 												</tr>
-                                            </tbody>
+												<tr>
+													<th>Name</th>
+													<td>{{comment.name}}</td>
+												</tr>
+												<tr>
+													<th>Comment</th>
+													<td>{{comment.description}}</td>
+												</tr>
+												<tr>
+													<th>Email</th>
+													<td>{{comment.email}}</td>
+												</tr>
+												<tr>
+													<th>Date and Time</th>
+													<td>{{comment.created_at}}</td>
+												</tr>
+											</tbody>
 										</table>
 									</div>
 								</div>

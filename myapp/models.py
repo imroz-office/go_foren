@@ -302,7 +302,7 @@ class tbl_blog(models.Model):
 
     def __str__(self):
         return self.heading
-
+ 
 # Blog comments table
 class tbl_blog_comment(models.Model): 
     blog_id = models.IntegerField()
@@ -555,4 +555,16 @@ class tbl_intended_study(models.Model):
     def __str__(self):
         return f"{self.inquiry_id}"
 
- 
+# for only student visa 
+class tbl_newsletter(models.Model):
+    email = models.CharField(max_length=100, null=True , blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'tbl_newsletter'
+
+    def __str__(self):
+        return f"{self.email}"
+

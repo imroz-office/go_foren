@@ -118,13 +118,11 @@ urlpatterns = [
     path('edit_blog/<int:id>', views.edit_blog, name='edit_blog'),
     path('delete_blog/<int:id>', views.delete_blog, name='delete_blog'),
     
-
     # comments
-    path('add_comments/', views.add_comments, name='add_comments'),
-    path('comments_list/', views.comments_list, name='comments_list'),
-    path('edit_comments/<int:id>', views.edit_comments, name='edit_comments'),
-    path('delete_comments/<int:id>', views.delete_comments, name='delete_comments'),
-    
+    path('comment_list_view/', views.comment_list_view, name='comment_list_view'),
+    path('comment_detail_view/<int:id>/', views.comment_detail_view, name='comment_detail_view'),
+    path('delete_comment_view/<int:id>/', views.delete_comment_view, name='delete_comment_view'),
+
     # ======================= Contact Us =======================
     # visa inquiry (contact, visitor visa, investor Visa, WP visa)
     path('visa-inquiry/', views.submit_visa_inquiry, name='visa_inquiry'),
@@ -143,7 +141,6 @@ urlpatterns = [
 
     # submit student visa inquiry
     path('submit_student_visa_inquiry/', views.submit_student_visa_inquiry, name='submit_student_visa_inquiry'),
-    path('submit_blog_comment/', views.submit_blog_comment, name='submit_blog_comment'),
 
     # Student Visa Inquiry URLs
     path('student_visa_inquiry_view/', views.student_visa_inquiry_view, name='student_visa_inquiry_view'),
@@ -151,10 +148,7 @@ urlpatterns = [
     path('delete_student_visa_inquiry/<int:id>/', views.delete_student_visa_inquiry, name='delete_student_visa_inquiry'),
 
     # submit Blog Comment
-    path('submit_blog_comment/', views.submit_blog_comment, name='submit_blog_comment'),
-
-    # Student Visa Inquiry URLs
-    
+    path('submit_blog_comment/', views.submit_blog_comment, name='submit_blog_comment'),   
     
     # ======================= [GET type API] =======================
     path('get_course_data/', views.get_course_data, name='get_course_data'),
@@ -182,4 +176,19 @@ urlpatterns = [
     path('get_news_detail/<int:id>', views.get_news_detail, name='get_news_detail'),
     path('get_team_detail/<int:id>', views.get_team_detail, name='get_team_detail'),
     path('get_visa_service_detail/<int:id>', views.get_visa_service_detail, name='get_visa_service_detail'),
+
+    path('get_blog_comments/<int:blog_id>/', views.get_blog_comments, name='get_blog_comments'),
+
+    # tbl cv 
+    path('submit_cv/', views.submit_cv, name='submit_cv'),
+    path('cv_list_view/', views.cv_list_view, name='cv_list_view'),
+    path('cv_detail_view/<int:id>/', views.cv_detail_view, name='cv_detail_view'),
+    path('delete_cv_view/<int:id>/', views.delete_cv_view, name='delete_cv_view'),
+
+    # News letter
+    path("submit_newsletter/", views.submit_newsletter, name="submit_newsletter"),
+    path("newsletter_view/", views.newsletter_view, name="newsletter_view"),
+    path("newsletter_detail/<int:id>/", views.newsletter_detail, name="newsletter_detail"),
+    path("delete_newsletter/<int:id>/", views.delete_newsletter, name="delete_newsletter"),
+
 ]
