@@ -25,9 +25,10 @@
 							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
 								<span><i class="mdi mdi-chevron-right"></i></span>Newsletter Subscription Details</p>
 						</div>
-						<!--<div>          -->
-						<!--	<a href="#" class="btn btn-primary">Visa Inquiry List</a>-->
-						<!--</div>-->
+            						<div> 
+							<a href="{% url 'newsletter_view' %}" class="btn btn-primary"> View All
+							</a>
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-12">
@@ -46,7 +47,7 @@
 												</tr>
 												
 												<tr>
-													<th>Name</th>
+													<th>Subscribed Email</th>
 													<td>{{record.email}}</td>
 												</tr>
 											</tbody>

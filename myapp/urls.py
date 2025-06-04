@@ -149,6 +149,7 @@ urlpatterns = [
 
     # submit Blog Comment
     path('submit_blog_comment/', views.submit_blog_comment, name='submit_blog_comment'),   
+    path('submit_personalized_guidance/', views.submit_personalized_guidance, name='submit_personalized_guidance'),   
     
     # ======================= [GET type API] =======================
     path('get_course_data/', views.get_course_data, name='get_course_data'),
@@ -190,5 +191,9 @@ urlpatterns = [
     path("newsletter_view/", views.newsletter_view, name="newsletter_view"),
     path("newsletter_detail/<int:id>/", views.newsletter_detail, name="newsletter_detail"),
     path("delete_newsletter/<int:id>/", views.delete_newsletter, name="delete_newsletter"),
+
+    path("personalized_guidance_view/", views.personalized_guidance_view, name="personalized_guidance_view"),
+    path("personalized_guidance_detail/<int:id>/", views.personalized_guidance_detail, name="personalized_guidance_detail"),
+    path("delete_personalized_guidance/<int:id>/", views.delete_personalized_guidance, name="delete_personalized_guidance"),
 
 ]

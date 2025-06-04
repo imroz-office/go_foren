@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+{%  block start %}
+
+<style>
+    a {
+    color: #00cc99;
+    
+}
+
+.btn.btn-primary {
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+
+
+</style>
+			<!-- CONTENT WRAPPER -->
+			<div class="ec-content-wrapper">
+				<div class="content">
+					<div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+						<div>
+							<h1>Contact US Details (For Personalized Guidance)</h1>
+							<p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+								<span><i class="mdi mdi-chevron-right"></i></span>Contact US Details (For Personalized Guidance)</p>
+						</div>
+            			<div> 
+							<a href="{% url 'personalized_guidance_view' %}" class="btn btn-primary"> View All
+							</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<div class="card card-default">
+								<div class="card-body">
+									<div class="table-responsive">
+										<table id="responsive-data-table" class="table">
+											<tbody>
+												<tr style="color:black;"> 
+													<th>Information</th>
+													<th>Detail</th>
+												</tr>
+												<tr>
+													<th>ID</th>
+													<td>{{record.id}}</td>
+												</tr>
+												
+												<tr>
+													<th>Name</th>
+													<td>{{record.first_name}} {{record.last_name}}</td>
+												</tr>
+                                                <tr>
+                                                    <th>Mobile</th>
+													<td>{{record.phone}}</td>
+												</tr>
+                                                <tr>
+                                                    <th>Email</th>
+                                                    <td>{{record.email}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Desired Country</th>
+                                                    <td>{{record.desired_country}}</td>
+												</tr>
+                                                <tr>
+                                                    <th>Desired Visa Type</th>
+                                                    <td>{{record.desired_visa_service}}</td>
+												</tr>
+                                                <tr>
+                                                    <th>Date and Time</th>
+                                                    <td>{{record.submitted_at}}</td>	
+												</tr>
+											</tbody>
+										</table>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- End Content -->
+			</div> <!-- End Content Wrapper -->
+
+{%  endblock %}		

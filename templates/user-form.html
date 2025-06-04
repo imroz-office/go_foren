@@ -87,7 +87,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <label for="role" class="form-label">Role</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
@@ -98,7 +98,7 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const email = emailInput.value.trim();
         const mobileNo = mobileInput.value.trim();
         const password = passwordInput.value.trim();
-        const role = roleInput.value.trim();
+        // const role = roleInput.value.trim();
 
         const officeNamePattern = /^[A-Za-z\s]+$/;
         const mobileNoPattern = /^[0-9]{10}$/;
@@ -173,10 +173,10 @@ document.addEventListener('DOMContentLoaded', function() {
             Swal.fire('Password Required', 'Please set a Password.', 'error');
             return;
         } 
-        if (!role) {
-            Swal.fire('Role Required', 'Please select a Role.', 'error');
-            return;
-        } 
+        // if (!role) {
+        //     Swal.fire('Role Required', 'Please select a Role.', 'error');
+        //     return;
+        // } 
 
         Swal.fire({
             title: 'Are you sure?',

@@ -81,5 +81,8 @@ class BlogCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = tbl_blog_comment
         fields = '__all__'
-        
-        
+
+class PersonalizedGuidanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PersonalizedGuidance
+        fields = '__all__'

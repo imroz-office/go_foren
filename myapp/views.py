@@ -1992,4 +1992,80 @@ def delete_newsletter(request, id):
     record.delete()
     return redirect('newsletter_view')
 
+@api_view(['POST'])
+def submit_personalized_guidance(request):
+    """Handle personalized guidance form submission."""
+    try:
+        first_name = request.data.get("firstName")
+        last_name = request.data.get("lastName")
+        phone = request.data.get("phone")
+        email = request.data.get("email")
+        desired_country = request.data.get("desired_country")
+        desired_visa_service = request.data.get("desired_visa_service")
 
+        # Basic validation
+        missing_fields = []
+        for field_name, value in [
+            ("firstName", first_name),
+            ("lastName", last_name),
+            ("phone", phone),
+            ("email", email),
+            ("desired_country", desired_country),
+            ("desired_visa_service", desired_visa_service),
+        ]:
+            if not value:
+                missing_fields.append(field_name)
+
+        if missing_fields:
+            return Response(
+                {"error": f"Missing required fields: {', '.join(missing_fields)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Save to DB
+        PersonalizedGuidance.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            phone=phone,
+            email=email,
+            desired_country=desired_country,
+            desired_visa_service=desired_visa_service,
+        )
+
+        return Response(
+            {"success": "Personalized guidance request submitted successfully."},
+            status=status.HTTP_201_CREATED,
+        )
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+@login_required_custom
+def personalized_guidance_view(request):
+    personalized_guidance_qs = PersonalizedGuidance.objects.all().order_by('-id')
+
+    paginator = Paginator(personalized_guidance_qs, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "all_personalized_guidances": page_obj.object_list,
+        "page_obj": page_obj,
+    }
+    return render(request, "personalized_guidance-list.html", context)
+
+@login_required_custom
+def personalized_guidance_detail(request, id):
+    record = get_object_or_404(PersonalizedGuidance, id=id)
+    context = {
+        "record": record,
+    }
+    return render(request, "personalized_guidance-detail.html", context)
+
+@login_required_custom
+def delete_personalized_guidance(request, id):
+    record = get_object_or_404(PersonalizedGuidance, id=id)
+    record.delete()
+    return redirect('personalized_guidance_view')

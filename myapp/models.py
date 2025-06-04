@@ -130,7 +130,19 @@ class tbl_faq(models.Model):
 
     def __str__(self):
         return self.question
+    
+# Personalized Guidance form from home page
+class PersonalizedGuidance(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20)
+    email = models.EmailField()
+    desired_country = models.CharField(max_length=100)
+    desired_visa_service = models.CharField(max_length=100)
+    submitted_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.email}"
 
 # ========================= FOR ABOUT US  =========================
 
