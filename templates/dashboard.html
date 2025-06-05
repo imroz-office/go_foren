@@ -33,6 +33,22 @@
 				
 					
                     <!---->
+                    <h4 style="margin-bottom:15px;padding-left:8px">Users</h4>
+                    <div class="row">
+    <!-- Country List Card -->
+    <div class="col-xl-3 col-sm-6 p-b-15 lbl-card">
+        <a class="sidenav-item-link" href="{% url 'user_list' %}">
+            <div class="card card-mini dash-card card-1">
+                <div class="card-body">
+                    <h2 class="mb-1">{{user_count}}</h2>
+                    <p style="margin-top:10px">User list</p>
+                    <span><i class="fa-solid fa-globe"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+</div>
                     <h4 style="margin-bottom:15px;padding-left:8px">MASTER</h4>
                     <div class="row">
     <!-- Country List Card -->
@@ -40,7 +56,7 @@
         <a class="sidenav-item-link" href="{% url 'country_list' %}">
             <div class="card card-mini dash-card card-1">
                 <div class="card-body">
-                    <h2 class="mb-1">1,503</h2>
+                    <h2 class="mb-1">{{country_count}}</h2>
                     <p style="margin-top:10px">Country list</p>
                     <span><i class="fa-solid fa-globe"></i></span>
                 </div>
@@ -53,7 +69,7 @@
         <a class="sidenav-item-link" href="{% url 'occupation_list' %}">
             <div class="card card-mini dash-card card-2">
                 <div class="card-body">
-                    <h2 class="mb-1">79,503</h2>
+                    <h2 class="mb-1">{{occupation_count}}</h2>
                     <p style="margin-top:10px">Occupation List</p>
                     <span class="mdi mdi-account-clock"></span>
                 </div>
@@ -66,7 +82,7 @@
         <a class="sidenav-item-link" href="{% url 'visa_type_list' %}">
             <div class="card card-mini dash-card card-3">
                 <div class="card-body">
-                    <h2 class="mb-1">15,503</h2>
+                    <h2 class="mb-1">{{visa_service_count}}</h2>
                     <p style="margin-top:10px">Visa Type List</p>
                     <span ><i class="fa-brands fa-avianex"></i></span>
                 </div>
@@ -79,7 +95,7 @@
         <a class="sidenav-item-link" href="{% url 'course_list' %}">
             <div class="card card-mini dash-card card-4">
                 <div class="card-body">
-                    <h2 class="mb-1">$98,503</h2>
+                    <h2 class="mb-1">{{course_count}}</h2>
                     <p style="margin-top:10px">Course List</p>
                     <span ><i class="fa-brands fa-discourse"></i></span>
                 </div>
@@ -94,7 +110,7 @@
 						    <a class="sidenav-item-link" href="{% url 'home_list' %}">
 							<div class="card card-mini dash-card card-1">
 								<div class="card-body">
-									<h2 class="mb-1">1,503</h2>
+									<h2 class="mb-1">{{home_count}}</h2>
 									<p style="margin-top:10px">Home Content List</p>
 									<span><i class="fa-solid fa-house-signal"></i></span>
 								</div>
@@ -105,7 +121,7 @@
 						    	<a class="sidenav-item-link" href="{% url 'news_list' %}">
 							<div class="card card-mini dash-card card-2">
 								<div class="card-body">
-									<h2 class="mb-1">79,503</h2>
+									<h2 class="mb-1">{{news_count}}</h2>
 									<p style="margin-top:10px">Latest News</p>
 									<span ><i class="fa-solid fa-envelope-open-text"></i></span>
 								</div>
@@ -116,8 +132,19 @@
 						    <a class="sidenav-item-link" href="{% url 'team_list' %}">
 							<div class="card card-mini dash-card card-3">
 								<div class="card-body">
-									<h2 class="mb-1">15,503</h2>
+									<h2 class="mb-1">{{team_count}}</h2>
 									<p style="margin-top:10px">Team List</p>
+									<span ><i class="fa-solid fa-people-group"></i></span>
+								</div>
+							</div>
+							</a>
+						</div>
+						<div class="col-xl-3 col-sm-6 p-b-15 lbl-card">
+						    <a class="sidenav-item-link" href="{% url 'faq_list' %}">
+							<div class="card card-mini dash-card card-3">
+								<div class="card-body">
+									<h2 class="mb-1">{{FAQ_count}}</h2>
+									<p style="margin-top:10px">FAQ List</p>
 									<span ><i class="fa-solid fa-people-group"></i></span>
 								</div>
 							</div>
@@ -131,7 +158,7 @@
 						    <a class="sidenav-item-link" href="{% url 'about_us_list' %}">
 							<div class="card card-mini dash-card card-1">
 								<div class="card-body">
-									<h2 class="mb-1">1,503</h2>
+									<h2 class="mb-1">{{about_us_count}}</h2>
 									<p style="margin-top:10px">About Us List</p>
 									<span ><i class="fa-solid fa-address-card"></i></span>
 								</div>
@@ -145,7 +172,7 @@
 						    <a class="sidenav-item-link" href="{% url 'image_list' %}">
 							<div class="card card-mini dash-card card-1">
 								<div class="card-body">
-									<h2 class="mb-1">1,503</h2>
+									<h2 class="mb-1">{{gallery_count}}</h2>
 									<p style="margin-top:10px">Gallery Image List</p>
 									<span ><i class="fa-solid fa-photo-film"></i></span>
 								</div>
@@ -156,7 +183,7 @@
 						    <a class="sidenav-item-link" href="{% url 'video_list' %}">
 							<div class="card card-mini dash-card card-2">
 								<div class="card-body">
-									<h2 class="mb-1">79,503</h2>
+									<h2 class="mb-1">{{video_count}}</h2>
 									<p style="margin-top:10px">Video List</p>
 									<span><i class="fa-solid fa-file-video"></i></span>
 								</div>
@@ -167,7 +194,7 @@
 						    <a class="sidenav-item-link" href="{% url 'success_story_list' %}">
 							<div class="card card-mini dash-card card-3"> 
 								<div class="card-body">
-									<h2 class="mb-1">15,503</h2>
+									<h2 class="mb-1">{{success_story_count}}</h2>
 									<p style="margin-top:10px">Success Story List</p>
 									<span><i class="fa-solid fa-thumbs-up"></i></span>
 								</div>
@@ -182,7 +209,7 @@
 						    <a class="sidenav-item-link" href="{% url 'blog_list' %}">
 							<div class="card card-mini dash-card card-1">
 								<div class="card-body">
-									<h2 class="mb-1">1,503</h2>
+									<h2 class="mb-1">{{blog_count}}</h2>
 									<p style="margin-top:10px">Blog List</p>
 									<span ><i class="fa-solid fa-blog"></i></span>
 								</div>
@@ -193,7 +220,7 @@
 						    	<a class="sidenav-item-link" href="{% url 'comment_list_view' %}">
 							<div class="card card-mini dash-card card-2">
 								<div class="card-body">
-									<h2 class="mb-1">79,503</h2>
+									<h2 class="mb-1">{{blog_comment_count}}</h2>
 									<p style="margin-top:10px">Comment List</p>
 									<span ><i class="fa-solid fa-comments"></i></span>
 								</div>
@@ -210,8 +237,69 @@
 						    	<a class="sidenav-item-link" href="{% url 'inquiry_view' %}">
 							<div class="card card-mini dash-card card-1">
 								<div class="card-body">
-									<h2 class="mb-1">1,503</h2>
+									<h2 class="mb-1">{{inquiry_count}}</h2>
 									<p style="margin-top:10px">Visa Inquiries</p>
+									<span ><i class="mdi mdi-file-document-box-search-outline"></i></span>
+								</div>
+							</div>
+							</a>
+						</div>
+
+						
+						<div class="col-xl-3 col-sm-6 p-b-15 lbl-card">
+						    	<a class="sidenav-item-link" href="{% url 'pr_visa_inquiry_view' %}">
+							<div class="card card-mini dash-card card-1">
+								<div class="card-body">
+									<h2 class="mb-1">{{PR_count}}</h2>
+									<p style="margin-top:10px">PR Visa Inquiries</p>
+									<span ><i class="mdi mdi-file-document-box-search-outline"></i></span>
+								</div>
+							</div>
+							</a>
+						</div>
+					
+						<div class="col-xl-3 col-sm-6 p-b-15 lbl-card">
+						    	<a class="sidenav-item-link" href="{% url 'student_visa_inquiry_view' %}">
+							<div class="card card-mini dash-card card-1">
+								<div class="card-body">
+									<h2 class="mb-1">{{student_count}}</h2>
+									<p style="margin-top:10px">Student Visa Inquiries</p>
+									<span ><i class="mdi mdi-file-document-box-search-outline"></i></span>
+								</div>
+							</div>
+							</a>
+						</div>
+					
+						<div class="col-xl-3 col-sm-6 p-b-15 lbl-card">
+						    	<a class="sidenav-item-link" href="{% url 'cv_list_view' %}">
+							<div class="card card-mini dash-card card-1">
+								<div class="card-body">
+									<h2 class="mb-1">{{CV_count}}</h2>
+									<p style="margin-top:10px">Uploaded CV List</p>
+									<span ><i class="mdi mdi-file-document-box-search-outline"></i></span>
+								</div>
+							</div>
+							</a>
+						</div>
+					
+						<div class="col-xl-3 col-sm-6 p-b-15 lbl-card">
+						    	<a class="sidenav-item-link" href="{% url 'newsletter_view' %}">
+							<div class="card card-mini dash-card card-1">
+								<div class="card-body">
+									<h2 class="mb-1">{{NL_count}}</h2>
+									<p style="margin-top:10px">Newsletter Subscription List</p>
+									<span ><i class="mdi mdi-file-document-box-search-outline"></i></span>
+								</div>
+							</div>
+							</a>
+						</div>
+					
+						<div class="col-xl-3 col-sm-6 p-b-15 lbl-card">
+						    	<a class="sidenav-item-link" href="{% url 'personalized_guidance_view' %}">
+							<div class="card card-mini dash-card card-1">
+								<div class="card-body">
+									<h2 class="mb-1">{{PG_count}}</h2>
+									<p style="margin-top:10px">Personalized Guidance List</p>
 									<span ><i class="mdi mdi-file-document-box-search-outline"></i></span>
 								</div>
 							</div>

@@ -105,11 +105,36 @@ def dashboard_view(request):
     inquiry_count = all_inq.count()
     
     context = {
-        "inquiry_count":inquiry_count,
+        "inquiry_count": inquiry_count,
+        "user_count": tbl_user.objects.count(),
+        "role_count": tbl_role.objects.count(),
+        "country_count": tbl_country.objects.count(),
+        "occupation_count": tbl_occupation.objects.count(),
+        "home_count": tbl_home.objects.count(),
+        "news_count": tbl_news.objects.count(),
+        "team_count": tbl_team.objects.count(),
+        "faq_count": tbl_faq.objects.count(),
+        "guidance_count": PersonalizedGuidance.objects.count(),
+        "about_us_count": tbl_about_us.objects.count(),
+        "visa_service_count": tbl_visa_service.objects.count(),
+        "course_count": tbl_courses.objects.count(),
+        "gallery_count": tbl_gallery.objects.count(),
+        "video_count": tbl_video.objects.count(),
+        "success_story_count": tbl_success_stories.objects.count(),
+        "blog_count": tbl_blog.objects.count(),
+        "blog_comment_count": tbl_blog_comment.objects.count(),
+
+
+        "PR_count": tbl_pr_visa_inquiry.objects.count(),
+        "student_count": tbl_student_visa_inquiry.objects.count(),
+        "CV_count": tbl_cv.objects.count(),
+        "NL_count": tbl_newsletter.objects.count(),
+        "PG_count": PersonalizedGuidance.objects.count(),
+        "FAQ_count": tbl_faq.objects.count(),
     }
     return render(request, "dashboard.html", context)
 
-# user
+# user 
 
 @login_required_custom
 def add_user(request):
