@@ -196,4 +196,20 @@ urlpatterns = [
     path("personalized_guidance_detail/<int:id>/", views.personalized_guidance_detail, name="personalized_guidance_detail"),
     path("delete_personalized_guidance/<int:id>/", views.delete_personalized_guidance, name="delete_personalized_guidance"),
 
+    # Vacancy
+    path('add_vacancy/', views.add_vacancy, name='add_vacancy'),
+    path('vacancy_list/', views.vacancy_list, name='vacancy_list'),
+    path('vacancy_view/<int:id>', views.vacancy_view, name='vacancy_view'),
+    path('edit_vacancy/<int:id>/', views.edit_vacancy, name='edit_vacancy'),
+    path('delete_vacancy/<int:id>/', views.delete_vacancy, name='delete_vacancy'),
+
+    # Study Course
+    path('add_s_course/', views.add_s_course, name='add_s_course'),
+    path('s_course_list/', views.s_course_list, name='s_course_list'),
+    path('s_course_view/<int:id>', views.s_course_view, name='s_course_view'),
+    path('edit_s_course/<int:id>/', views.edit_s_course, name='edit_s_course'),
+    path('delete_s_course/<int:id>/', views.delete_s_course, name='delete_s_course'),
+
+
 ]
+ 

@@ -919,7 +919,7 @@ def add_news(request):
 def news_list(request):
     news_queryset = tbl_news.objects.all().order_by("-id")
 
-    paginator = Paginator(news_queryset, 10)  # Show 10 items per page
+    paginator = Paginator(news_queryset, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -2094,3 +2094,133 @@ def delete_personalized_guidance(request, id):
     record = get_object_or_404(PersonalizedGuidance, id=id)
     record.delete()
     return redirect('personalized_guidance_view')
+
+
+from django.core.paginator import Paginator
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import tbl_vacancy, tbl_study_course
+
+@login_required_custom
+def add_vacancy(request):
+    if request.method == "POST":
+        tbl_vacancy.objects.create(
+            location=request.POST.get("location"),
+            industry_type=request.POST.get("industry_type"),
+            position_name=request.POST.get("position_name"),
+            company=request.POST.get("company"),
+            vacancy_date=request.POST.get("vacancy_date"),
+            vacancy_count=request.POST.get("vacancy_count"),
+            master_agent_code=request.POST.get("master_agent_code"),
+        )
+        request.session["add_success"] = True
+        return redirect('vacancy_list')
+    return render(request, "vacancy-form.html")
+
+@login_required_custom
+def vacancy_list(request):
+    queryset = tbl_vacancy.objects.all().order_by("-id")
+    paginator = Paginator(queryset, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "record_name": "Vacancy",
+        "vacancies": page_obj.object_list,
+        "page_obj": page_obj,
+        "add_success": request.session.pop("add_success", None),
+        "update_success": request.session.pop("update_success", None),
+        "delete_success": request.session.pop("delete_success", None),
+    }
+    return render(request, "vacancy-list.html", context)
+
+@login_required_custom
+def vacancy_view(request, id):
+    data = get_object_or_404(tbl_vacancy, id=id)
+    return render(request, "vacancy-view.html", {"data": data})
+
+@login_required_custom
+def edit_vacancy(request, id):
+    vacancy = get_object_or_404(tbl_vacancy, id=id)
+    if request.method == "POST":
+        vacancy.location = request.POST.get("location")
+        vacancy.industry_type = request.POST.get("industry_type")
+        vacancy.position_name = request.POST.get("position_name")
+        vacancy.company = request.POST.get("company")
+        vacancy.vacancy_date = request.POST.get("vacancy_date")
+        vacancy.vacancy_count = request.POST.get("vacancy_count")
+        vacancy.master_agent_code = request.POST.get("master_agent_code")
+        vacancy.save()
+        request.session["update_success"] = True
+        return redirect('vacancy_list')
+
+    return render(request, "vacancy-form.html", {"vacancy": vacancy, "is_edit": True})
+
+@login_required_custom
+def delete_vacancy(request, id):
+    get_object_or_404(tbl_vacancy, id=id).delete()
+    request.session["delete_success"] = True
+    return redirect('vacancy_list')
+
+
+@login_required_custom
+def add_s_course(request):
+    if request.method == "POST":
+        tbl_study_course.objects.create(
+            location=request.POST.get("location"),
+            study_faculty=request.POST.get("study_faculty"),
+            college_nature=request.POST.get("college_nature"),
+            study_level=request.POST.get("study_level"),
+            course_name=request.POST.get("course_name"),
+            college=request.POST.get("college"),
+            add_date=request.POST.get("add_date"),
+            seat_count=request.POST.get("seat_count"),
+        )
+        request.session["add_success"] = True
+        return redirect('s_course_list')
+    return render(request, "course-form2.html")
+
+@login_required_custom
+def s_course_list(request):
+    queryset = tbl_study_course.objects.all().order_by("-id")
+    paginator = Paginator(queryset, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "record_name": "Study Course",
+        "courses": page_obj.object_list,
+        "page_obj": page_obj,
+        "add_success": request.session.pop("add_success", None),
+        "update_success": request.session.pop("update_success", None),
+        "delete_success": request.session.pop("delete_success", None),
+    }
+    return render(request, "course-list2.html", context)
+
+@login_required_custom
+def s_course_view(request, id):
+    data = get_object_or_404(tbl_study_course, id=id)
+    return render(request, "course-view2.html", {"data": data})
+
+@login_required_custom
+def edit_s_course(request, id):
+    course = get_object_or_404(tbl_study_course, id=id)
+    if request.method == "POST":
+        course.location = request.POST.get("location")
+        course.study_faculty = request.POST.get("study_faculty")
+        course.college_nature = request.POST.get("college_nature")
+        course.study_level = request.POST.get("study_level")
+        course.course_name = request.POST.get("course_name")
+        course.college = request.POST.get("college")
+        course.add_date = request.POST.get("add_date")
+        course.seat_count = request.POST.get("seat_count")
+        course.save()
+        request.session["update_success"] = True
+        return redirect('s_course_list')
+
+    return render(request, "course-form2.html", {"course": course, "is_edit": True})
+
+@login_required_custom
+def delete_s_course(request, id):
+    get_object_or_404(tbl_study_course, id=id).delete()
+    request.session["delete_success"] = True
+    return redirect('s_course_list')

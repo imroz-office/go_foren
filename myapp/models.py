@@ -580,3 +580,44 @@ class tbl_newsletter(models.Model):
     def __str__(self):
         return f"{self.email}"
 
+
+# vacancy
+class tbl_vacancy(models.Model):
+    location = models.CharField(max_length=100, null=True , blank=True)
+    industry_type = models.CharField(max_length=100, null=True , blank=True)
+    # category = models.CharField(max_length=100, null=True , blank=True)
+    position_name = models.CharField(max_length=100, null=True , blank=True)
+    company = models.CharField(max_length=100, null=True , blank=True)
+    vacancy_date = models.CharField(max_length=100, null=True , blank=True)
+    vacancy_count = models.CharField(max_length=100, null=True , blank=True)
+    master_agent_code = models.CharField(max_length=100, null=True , blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'tbl_vacancy'
+
+    def __str__(self):
+        return f"{self.position_name}"
+
+# vacancy
+class tbl_study_course(models.Model):
+    location = models.CharField(max_length=100, null=True , blank=True)
+    study_faculty = models.CharField(max_length=100, null=True , blank=True)
+    # category = models.CharField(max_length=100, null=True , blank=True)
+    college_nature = models.CharField(max_length=100, null=True , blank=True)
+    study_level = models.CharField(max_length=100, null=True , blank=True)
+    course_name = models.CharField(max_length=100, null=True , blank=True)
+    college = models.CharField(max_length=100, null=True , blank=True)
+    add_date = models.CharField(max_length=100, null=True , blank=True)
+    seat_count = models.CharField(max_length=100, null=True , blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'tbl_study_course'
+
+    def __str__(self):
+        return f"{self.course_name}"
+
+

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block start %}
+
+<style>
+a { color: #00cc99; }
+.btn.btn-primary {
+    color: #ffffff;
+    background-color: #00cc99;
+    border-color: #00cc99;
+}
+</style>
+
+<div class="ec-content-wrapper">
+    <div class="content">
+        <div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+            <div>
+                <h1>Vacancy Details of {{ data.position_name }}</h1>
+                <p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+                    <span><i class="mdi mdi-chevron-right"></i></span>Vacancy Details</p>
+            </div>
+            <div>
+                <a href="{% url 'vacancy_list' %}" class="btn btn-primary">View All</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr><th>Information</th><th>Detail</th></tr>
+                                    <tr><th>ID</th><td>{{ data.id }}</td></tr>
+                                    <tr><th>Position</th><td>{{ data.position_name }}</td></tr>
+                                    <tr><th>Company</th><td>{{ data.company }}</td></tr>
+                                    <tr><th>Industry Type</th><td>{{ data.industry_type }}</td></tr>
+                                    <tr><th>Location</th><td>{{ data.location }}</td></tr>
+                                    <tr><th>Vacancy Date</th><td>{{ data.vacancy_date }}</td></tr>
+                                    <tr><th>Vacancy Count</th><td>{{ data.vacancy_count }}</td></tr>
+                                    <tr><th>Master Agent Code</th><td>{{ data.master_agent_code }}</td></tr>
+                                    <tr><th>Created At</th><td>{{ data.created_at }}</td></tr>
+                                    <tr><th>Updated At</th><td>{{ data.updated_at }}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
