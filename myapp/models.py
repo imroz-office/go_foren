@@ -621,3 +621,26 @@ class tbl_study_course(models.Model):
         return f"{self.course_name}"
 
 
+class tbl_course_name(models.Model): 
+    course_name = models.CharField(max_length=150, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'tbl_course_name'
+
+class tbl_study_level(models.Model): 
+    level_name = models.CharField(max_length=150, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'tbl_study_level'
+
+class tbl_industry_type(models.Model): 
+    industry_name = models.CharField(max_length=150, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'tbl_industry_type'

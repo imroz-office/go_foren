@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+{% block start %}
+<style>
+    a {
+        color: #00cc99;
+
+    }
+
+    .btn.btn-primary {
+        color: #ffffff;
+        background-color: #00cc99;
+        border-color: #00cc99;
+    }
+
+    /*.form-control {*/
+
+    /*margin-bottom: 30px;*/
+
+    /*}*/
+
+
+    .btn.btn-primary:hover,
+    .btn.btn-outline-primary:hover {
+        color: #ffffff;
+        background-color: #00a37b;
+        border-color: #00a37b;
+    }
+</style>
+<!-- CONTENT WRAPPER -->
+<div class="ec-content-wrapper">
+    <div class="content">
+        <div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+            <div>
+                <h1>{% if is_edit %}Edit Industry Type{% else %}Add Industry Type{% endif %}</h1>
+                <p class="breadcrumbs"><span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+                    <span><i class="mdi mdi-chevron-right"></i></span>{% if is_edit %}Edit Industry Type{% else %}Add
+                    Industry Type{% endif %}
+                </p>
+            </div>
+            <div>
+                <a href="{% url 'industry_type' %}" class="btn btn-primary"> View All
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-header card-header-border-bottom">
+                        <h2>{% if is_edit %}Edit Industry Type{% else %}Add Industry Type{% endif %}</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row ec-vendor-uploads">
+                            <form id="add-office-form" class="row g-3"
+                                action="{% if is_edit %}{% url 'edit_industry_type' course.id %}{% else %}{% url 'add_industry_type' %}{% endif %}"
+                                method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="col-lg-12">
+                                    <div class="ec-vendor-upload-detail">
+                                        <div class="row g-3">
+
+                                            <div class="col-md-6">
+                                                <label for="username" class="form-label">Industry Type Name</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fas fa-graduation-cap"></i></span>
+                                                    <input type="text" class="form-control slug-title"
+                                                        name="industry_name" value="{{course.industry_name}}" id="username"
+                                                        placeholder="Enter Industry Type"> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Content -->
+</div> <!-- End Content Wrapper -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById("add-office-form");
+
+        const officeNameInput = document.getElementById("username");
+
+        officeNameInput.addEventListener("input", function () {
+            this.value = this.value.replace(/[^A-Za-z\s/_\-&]/g, '');
+        });
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const officeName = officeNameInput.value.trim();
+
+            const officeNamePattern = /^[A-Za-z\s/_\-&]+$/;
+
+            if (!officeName) {
+                Swal.fire('Industry Type Required', 'Please enter a Industry Type.', 'error');
+                return;
+            }
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to submit?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#00cc99',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Submit it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit with AJAX
+                    $.ajax({
+                        url: form.getAttribute('action'),
+                        type: 'POST',
+                        data: $(form).serialize(),
+                        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+                        success: function (response) {
+                            if (response.status === "error") {
+                                Swal.fire("Error", response.message, "error");
+                            } else {
+                                Swal.fire("Success", response.message, "success").then(() => {
+                                    window.location.href = "{% url 'industry_type' %}";
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire("Error", "Something went wrong!", "error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

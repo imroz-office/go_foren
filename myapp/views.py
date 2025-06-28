@@ -2102,6 +2102,9 @@ from .models import tbl_vacancy, tbl_study_course
 
 @login_required_custom
 def add_vacancy(request):
+    location_data = tbl_country.objects.all()
+    industry_data = tbl_industry_type.objects.all()
+
     if request.method == "POST":
         tbl_vacancy.objects.create(
             location=request.POST.get("location"),
@@ -2114,7 +2117,10 @@ def add_vacancy(request):
         )
         request.session["add_success"] = True
         return redirect('vacancy_list')
-    return render(request, "vacancy-form.html")
+    return render(request, "vacancy-form.html",{
+        'location_data':location_data,
+        'industry_data':industry_data,
+    })
 
 @login_required_custom
 def vacancy_list(request):
@@ -2141,6 +2147,10 @@ def vacancy_view(request, id):
 @login_required_custom
 def edit_vacancy(request, id):
     vacancy = get_object_or_404(tbl_vacancy, id=id)
+
+    location_data = tbl_country.objects.all()
+    industry_data = tbl_industry_type.objects.all()
+
     if request.method == "POST":
         vacancy.location = request.POST.get("location")
         vacancy.industry_type = request.POST.get("industry_type")
@@ -2153,7 +2163,12 @@ def edit_vacancy(request, id):
         request.session["update_success"] = True
         return redirect('vacancy_list')
 
-    return render(request, "vacancy-form.html", {"vacancy": vacancy, "is_edit": True})
+    return render(request, "vacancy-form.html", {
+        'location_data':location_data,
+        'industry_data':industry_data,
+        "vacancy": vacancy, 
+        "is_edit": True
+    })
 
 @login_required_custom
 def delete_vacancy(request, id):
@@ -2164,6 +2179,10 @@ def delete_vacancy(request, id):
 
 @login_required_custom
 def add_s_course(request):
+    location_data = tbl_country.objects.all()
+    faculty_data = tbl_course_name.objects.all()
+    level_data = tbl_study_level.objects.all()
+
     if request.method == "POST":
         tbl_study_course.objects.create(
             location=request.POST.get("location"),
@@ -2177,7 +2196,11 @@ def add_s_course(request):
         )
         request.session["add_success"] = True
         return redirect('s_course_list')
-    return render(request, "course-form2.html")
+    return render(request, "course-form2.html",{
+        'location_data':location_data,
+        'faculty_data':faculty_data,
+        'level_data':level_data,
+    })
 
 @login_required_custom
 def s_course_list(request):
@@ -2204,6 +2227,11 @@ def s_course_view(request, id):
 @login_required_custom
 def edit_s_course(request, id):
     course = get_object_or_404(tbl_study_course, id=id)
+
+    location_data = tbl_country.objects.all()
+    faculty_data = tbl_course_name.objects.all()
+    level_data = tbl_study_level.objects.all()
+
     if request.method == "POST":
         course.location = request.POST.get("location")
         course.study_faculty = request.POST.get("study_faculty")
@@ -2217,10 +2245,223 @@ def edit_s_course(request, id):
         request.session["update_success"] = True
         return redirect('s_course_list')
 
-    return render(request, "course-form2.html", {"course": course, "is_edit": True})
+    return render(request, "course-form2.html", {
+        'location_data':location_data,
+        'faculty_data':faculty_data,
+        'level_data':level_data,
+        "course": course, 
+        "is_edit": True
+    })
 
 @login_required_custom
 def delete_s_course(request, id):
     get_object_or_404(tbl_study_course, id=id).delete()
     request.session["delete_success"] = True
     return redirect('s_course_list')
+
+
+@login_required_custom
+def add_study_course(request):
+    if request.method == "POST":
+        course_name = request.POST.get("course_name")
+        
+        tbl_course_name.objects.create(
+            course_name = course_name
+            )
+        request.session["add_success"] = True
+        return redirect(study_course)
+    return render(request, "add_study_course.html")
+
+@login_required_custom
+def study_course(request):
+    course_queryset = tbl_course_name.objects.all()
+
+    paginator = Paginator(course_queryset, 10)  # Show 10 users per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    add_success = request.session.pop("add_success", None)
+    update_success = request.session.pop("update_success", None)
+    delete_success = request.session.pop("delete_success", None)
+
+    context = {
+        "add_success": add_success,
+        "update_success": update_success,
+        "delete_success": delete_success,
+        "record_name": "Study Faculty",
+        "data": page_obj.object_list,
+        "page_obj": page_obj,
+    }
+    return render(request, "study_course.html", context)
+
+@login_required_custom
+def edit_study_course(request, id):
+    course = get_object_or_404(tbl_course_name, id=id)
+    
+    if request.method == "POST":
+        course.course_name = request.POST.get("course_name")
+        
+        course.save()
+        request.session["update_success"] = True
+        return redirect('study_course')
+
+    context = {
+        "course": course,
+        "is_edit": True,
+    }
+    return render(request, "add_study_course.html", context)
+    
+@login_required_custom
+def delete_study_course(request, id):
+    data = get_object_or_404(tbl_course_name, id=id)
+    data.delete()
+    request.session["delete_success"] = True
+    return redirect('study_course')
+
+
+
+@login_required_custom
+def add_study_level(request):
+    if request.method == "POST":
+        level_name = request.POST.get("level_name")
+        
+        tbl_study_level.objects.create(
+            level_name = level_name
+            )
+        request.session["add_success"] = True
+        return redirect(study_level)
+    return render(request, "add_study_level.html")
+
+@login_required_custom
+def study_level(request):
+    course_queryset = tbl_study_level.objects.all()
+
+    paginator = Paginator(course_queryset, 10)  # Show 10 users per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    add_success = request.session.pop("add_success", None)
+    update_success = request.session.pop("update_success", None)
+    delete_success = request.session.pop("delete_success", None)
+
+    context = {
+        "add_success": add_success,
+        "update_success": update_success,
+        "delete_success": delete_success,
+        "record_name": "Study Level",
+        "data": page_obj.object_list,
+        "page_obj": page_obj,
+    }
+    return render(request, "study_level.html", context)
+
+@login_required_custom
+def edit_study_level(request, id):
+    course = get_object_or_404(tbl_study_level, id=id)
+    
+    if request.method == "POST":
+        course.level_name = request.POST.get("level_name")
+        
+        course.save()
+        request.session["update_success"] = True
+        return redirect('study_level')
+
+    context = {
+        "course": course,
+        "is_edit": True,
+    }
+    return render(request, "add_study_level.html", context)
+    
+@login_required_custom
+def delete_study_level(request, id):
+    data = get_object_or_404(tbl_study_level, id=id)
+    data.delete()
+    request.session["delete_success"] = True
+    return redirect('study_level')
+
+@login_required_custom
+def add_industry_type(request):
+    if request.method == "POST":
+        industry_name = request.POST.get("industry_name")
+        
+        tbl_industry_type.objects.create(
+            industry_name = industry_name
+            )
+        request.session["add_success"] = True
+        return redirect(industry_type)
+    return render(request, "add_industry_type.html")
+
+@login_required_custom
+def industry_type(request):
+    course_queryset = tbl_industry_type.objects.all()
+
+    paginator = Paginator(course_queryset, 10)  # Show 10 users per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    add_success = request.session.pop("add_success", None)
+    update_success = request.session.pop("update_success", None)
+    delete_success = request.session.pop("delete_success", None)
+
+    context = {
+        "add_success": add_success,
+        "update_success": update_success,
+        "delete_success": delete_success,
+        "record_name": "Industry Type",
+        "data": page_obj.object_list,
+        "page_obj": page_obj,
+    }
+    return render(request, "industry_type.html", context)
+
+@login_required_custom
+def edit_industry_type(request, id):
+    course = get_object_or_404(tbl_industry_type, id=id)
+    
+    if request.method == "POST":
+        course.industry_name = request.POST.get("industry_name")
+        
+        course.save()
+        request.session["update_success"] = True
+        return redirect('industry_type')
+
+    context = {
+        "course": course,
+        "is_edit": True,
+    }
+    return render(request, "add_industry_type.html", context)
+    
+@login_required_custom
+def delete_industry_type(request, id):
+    data = get_object_or_404(tbl_industry_type, id=id)
+    data.delete()
+    request.session["delete_success"] = True
+    return redirect('industry_type')
+
+@api_view(['GET'])
+def get_Study_Faculty_data(request):
+    Study_Faculty = tbl_course_name.objects.all().order_by('course_name')
+    serializer = StudyFacultySerializer(Study_Faculty, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def get_Study_Level_data(request):
+    Study_Level = tbl_study_level.objects.all().order_by('level_name')
+    serializer = StudyLevelSerializer(Study_Level, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def get_Industry_Type_data(request):
+    Industry_Type = tbl_industry_type.objects.all().order_by('industry_name')
+    serializer = IndustryTypeSerializer(Industry_Type, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def get_Study_Cource_data(request):
+    Study_Cource = tbl_study_course.objects.all().order_by('id')
+    serializer = StudyCourceSerializer(Study_Cource, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def get_Vacancy_data(request):
+    Vacancy_data = tbl_vacancy.objects.all().order_by('id')
+    serializer = VacancySerializer(Vacancy_data, many=True)
+    return Response(serializer.data) 

@@ -86,3 +86,28 @@ class PersonalizedGuidanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = PersonalizedGuidance
         fields = '__all__'
+
+class StudyFacultySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tbl_course_name
+        fields = '__all__'
+
+class StudyLevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tbl_study_level
+        fields = '__all__'
+
+class IndustryTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tbl_industry_type
+        fields = '__all__'
+
+class VacancySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tbl_vacancy
+        fields = '__all__'
+
+class StudyCourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tbl_study_course
+        fields = '__all__'

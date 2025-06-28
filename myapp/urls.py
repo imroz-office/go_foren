@@ -209,6 +209,29 @@ urlpatterns = [
     path('s_course_view/<int:id>', views.s_course_view, name='s_course_view'),
     path('edit_s_course/<int:id>/', views.edit_s_course, name='edit_s_course'),
     path('delete_s_course/<int:id>/', views.delete_s_course, name='delete_s_course'),
+    
+
+    path('study_course/', views.study_course, name='study_course'),
+    path('add_study_course/', views.add_study_course, name='add_study_course'),
+    path('edit_study_course/<int:id>', views.edit_study_course, name='edit_study_course'),
+    path('delete_study_course/<int:id>', views.delete_study_course, name='delete_study_course'),
+
+    path('study_level/', views.study_level, name='study_level'),
+    path('add_study_level/', views.add_study_level, name='add_study_level'),
+    path('edit_study_level/<int:id>', views.edit_study_level, name='edit_study_level'), 
+    path('delete_study_level/<int:id>', views.delete_study_level, name='delete_study_level'),
+
+    path('industry_type/', views.industry_type, name='industry_type'),
+    path('add_industry_type/', views.add_industry_type, name='add_industry_type'),
+    path('edit_industry_type/<int:id>', views.edit_industry_type, name='edit_industry_type'), 
+    path('delete_industry_type/<int:id>', views.delete_industry_type, name='delete_industry_type'),
+
+    
+    path('get_Study_Faculty_data/', views.get_Study_Faculty_data, name='get_Study_Faculty_data'),
+    path('get_Study_Level_data/', views.get_Study_Level_data, name='get_Study_Level_data'),
+    path('get_Industry_Type_data/', views.get_Industry_Type_data, name='get_Industry_Type_data'),
+    path('get_Study_Cource_data/', views.get_Study_Cource_data, name='get_Study_Cource_data'),
+    path('get_Vacancy_data/', views.get_Vacancy_data, name='get_Vacancy_data'),
 
 
 ]
