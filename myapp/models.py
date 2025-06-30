@@ -377,6 +377,7 @@ class tbl_cv(models.Model):
 
 # tbl_inquiry_association table
 class tbl_inquiry_association(models.Model):
+    form_name = models.CharField(max_length=100, default="")
     name = models.CharField(max_length=100)
     email = models.EmailField()
     number = models.CharField(max_length=15)

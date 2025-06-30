@@ -233,6 +233,10 @@ urlpatterns = [
     path('get_Study_Cource_data/', views.get_Study_Cource_data, name='get_Study_Cource_data'),
     path('get_Vacancy_data/', views.get_Vacancy_data, name='get_Vacancy_data'),
 
+    path('submit_inquiry_association/', views.submit_inquiry_association),
+    path('association_list/', views.association_list, name='association_list'),
+    path('association_view/<int:id>', views.association_view, name='association_view'), 
+    path('delete_association/<int:id>', views.delete_association, name='delete_association'),
 
 ]
  

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+{% block start %}
+
+<style>
+    a {
+        color: #00cc99;
+        word-wrap: break-word;
+    }
+    .btn.btn-primary {
+        color: #fff;
+        background-color: #00cc99;
+        border-color: #00cc99;
+    }
+    table {
+        width: 100% !important;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        table-layout: auto;  /* allow cells to expand */
+        word-wrap: break-word;
+        word-break: break-word;
+    }
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        vertical-align: top;
+        white-space: normal !important;  /* allow multi-line */
+    }
+    th {
+        background-color: #00cc99;
+        color: white;
+        white-space: nowrap; /* keep header text on one line */
+    }
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    /* Container padding */
+    .ec-content-wrapper {
+        padding: 20px 30px;
+    }
+    /* ... your existing styles ... */
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #00cc99 !important; /* make header green */
+        color: white !important;              /* white text */
+        white-space: nowrap;
+        padding: 12px 15px;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+</style>
+
+<div class="ec-content-wrapper">
+    <div class="content">
+        <div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+            <div>
+                <h1>Association Inquiry Details of {{ data.name }}</h1>
+                <p class="breadcrumbs">
+                    <span><a href="{% url 'dashboard_view' %}">Dashboard</a></span>
+                    <span><i class="mdi mdi-chevron-right"></i></span>Association Inquiry Details
+                </p>
+            </div>
+            <div> 
+                <a href="{% url 'association_list' %}" class="btn btn-primary"> View All
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="responsive-data-table" class="table">
+                                <thead>
+                                    <tr style="color:black;">
+                                        <th>Content</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><th>ID</th><td>{{ data.id }}</td></tr>
+                                    <tr><th>Name</th><td>{{ data.name }}</td></tr>
+                                    <tr><th>Mobile NO</th><td>{{ data.number }}</td></tr>
+                                    <tr><th>Email</th><td>{{ data.email }}</td></tr>
+                                    <tr><th>Occupation</th><td>{{ data.present_occupation }}</td></tr>
+                                    <tr><th>Submitted Form Name</th><td>{{ data.form_name }}</td></tr>
+                                    <tr><th>Additional Query</th><td>{{ data.additional_query }}</td></tr>
+                                    <tr><th>Date & Time</th><td>{{ data.created_at }}</td></tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- table-responsive -->
+                    </div> <!-- card-body -->
+                </div> <!-- card -->
+            </div> <!-- col -->
+        </div> <!-- row -->
+    </div> <!-- content -->
+</div> <!-- ec-content-wrapper -->
+
+{% endblock %}

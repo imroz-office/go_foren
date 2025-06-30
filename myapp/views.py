@@ -9,6 +9,8 @@ from django.http import JsonResponse
 from .serializers import *
 import uuid
 import json
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.timezone import now
 
 # ============================================================ Decorator & Utility Function ============================================================
  
@@ -2465,3 +2467,54 @@ def get_Vacancy_data(request):
     Vacancy_data = tbl_vacancy.objects.all().order_by('id')
     serializer = VacancySerializer(Vacancy_data, many=True)
     return Response(serializer.data) 
+
+@csrf_exempt
+def submit_inquiry_association(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+
+            tbl_inquiry_association.objects.create(
+                # form_name="Inquiry Association",
+                form_name=data.get("form_name", ""),
+                name=data.get("name", ""),
+                email=data.get("email", ""),
+                number=data.get("number", ""),
+                present_occupation=data.get("present_occupation", ""),
+                additional_query=data.get("additional_query", ""),
+                created_at=now(),
+                updated_at=now()
+            )
+            return JsonResponse({"status": "success", "message": "Inquiry submitted successfully"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
+
+@login_required_custom
+def association_list(request):
+    queryset = tbl_inquiry_association.objects.all().order_by("-id")
+    paginator = Paginator(queryset, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "record_name": "Association Inquiry",
+        "vacancies": page_obj.object_list,
+        "page_obj": page_obj,
+        "add_success": request.session.pop("add_success", None),
+        "update_success": request.session.pop("update_success", None),
+        "delete_success": request.session.pop("delete_success", None),
+    }
+    return render(request, "association-list.html", context)
+
+@login_required_custom
+def association_view(request, id):
+    data = get_object_or_404(tbl_inquiry_association, id=id)
+    return render(request, "association-view.html", {"data": data})
+
+@login_required_custom
+def delete_association(request, id):
+    get_object_or_404(tbl_inquiry_association, id=id).delete()
+    request.session["delete_success"] = True
+    return redirect('association_list')
