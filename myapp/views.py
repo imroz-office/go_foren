@@ -1710,7 +1710,7 @@ def get_home_data(request):
 
 @api_view(['GET'])
 def get_course_data(request):
-    courses = tbl_courses.objects.all().order_by('course_name')  # Optional ordering
+    courses = tbl_courses.objects.all().order_by('created_at')  # Optional ordering
     serializer = CourseSerializer(courses, many=True)
     return Response(serializer.data)
 
@@ -1740,7 +1740,7 @@ def get_blog_data(request):
 
 @api_view(['GET'])
 def get_visa_services(request):
-    visas = tbl_visa_service.objects.all().order_by('-created_at')
+    visas = tbl_visa_service.objects.all().order_by('created_at')
     serializer = VisaServiceSerializer(visas, many=True)
     return Response(serializer.data)
 

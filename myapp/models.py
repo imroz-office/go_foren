@@ -630,6 +630,9 @@ class tbl_course_name(models.Model):
     class Meta:
         db_table = 'tbl_course_name'
 
+    def __str__(self):
+        return self.course_name or ''
+    
 class tbl_study_level(models.Model): 
     level_name = models.CharField(max_length=150, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -637,6 +640,9 @@ class tbl_study_level(models.Model):
 
     class Meta:
         db_table = 'tbl_study_level'
+
+    def __str__(self):
+        return self.level_name or ''
 
 class tbl_industry_type(models.Model): 
     industry_name = models.CharField(max_length=150, null=True)

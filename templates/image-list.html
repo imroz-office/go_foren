@@ -44,7 +44,7 @@
 											<thead>
 												<tr>
 													<th>S. No.</th>
-													<th>Image Name</th>
+													<!-- <th>Image Name</th> -->
 													<th>Image Category</th>
                                                     <th>Image</th>
                                                     <th>Action</th>
@@ -55,7 +55,7 @@
                                                 {% for i in image %}
 												<tr>
 													<td>{{forloop.counter}}</td>
-													<td>{{i.image_name}}</td>
+													<!-- <td>{{i.image_name}}</td> -->
 													<td>{{i.category}}</td>
 													<td><a target="_blank" href="{{i.image_url}}"><img src="https://drive.google.com/thumbnail?id={{i.image_id}}" style="height:40px"/></a></td>
 													<td>

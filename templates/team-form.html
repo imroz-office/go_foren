@@ -185,14 +185,14 @@ document.addEventListener('DOMContentLoaded', function() {
 const rawDescription = CKEDITOR.instances.description.getData();
 const cleanedDescription = rawDescription.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, '').trim();
 
-if (!cleanedDescription) {
-    Swal.fire({
-        icon: 'error',
-        title: 'Description Required',
-        text: 'Please fill in Description.'
-    });
-    return;
-}
+// if (!cleanedDescription) {
+//     Swal.fire({
+//         icon: 'error',
+//         title: 'Description Required',
+//         text: 'Please fill in Description.'
+//     });
+//     return;
+// }
 
         Swal.fire({
             title: 'Are you sure?',
